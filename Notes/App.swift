@@ -1,17 +1,12 @@
-//
-//  NotesApp.swift
-//  Notes
-//
-//  Created by Cyril Flambard on 02/11/2024.
-//
-
 import SwiftUI
+import SwiftData
 
 @main
 struct NotesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            IndexView()
+                .modelContainer(for: Folder.self)
         }
     }
 }
