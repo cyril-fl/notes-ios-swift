@@ -3,135 +3,61 @@ import SwiftUI
 enum ButtonType {
     case primary
     case secondary
-    case success
-    case danger
 }
 
-typealias ButtonStyleAttributes = (
-    backgroundColor: Color,
-    foregroundStyle: Color,
-    cornerRadius: CGFloat,
-    maxWidth: CGFloat,
-    maxHeight: CGFloat,
-    horizontalPadding: CGFloat,
-    bottomPadding: CGFloat,
-    font: Font
-)
-
-struct _ButtonUI: ViewModifier {
-    var backgroundColor: Color
-    var foregroundStyle: Color
-    var cornerRadius: CGFloat
-    var maxWidth: CGFloat
-    var maxHeight: CGFloat
-    var horizontalPadding: CGFloat
-    var bottomPadding: CGFloat
-    var font: Font
+struct ButtonUiMd: ViewModifier {
+    var bgColor: Color
+    
+    init(_ bgColor: Color) {
+        self.bgColor = bgColor
+    }
     
     func body(content: Content) -> some View {
         content
-            .frame(maxWidth: maxWidth, maxHeight: maxHeight)
-            .background(backgroundColor)
-            .foregroundStyle(foregroundStyle)
-            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-            .padding(.horizontal, horizontalPadding)
-            .padding(.bottom, bottomPadding)
-            .font(font) // Applique le style de police ici
+            .frame(maxWidth: .infinity, maxHeight: 45)
+            .font(.headline)
+            .background(bgColor)
+            .cornerRadius(5)
     }
 }
 
-struct ButtonUI: ButtonStyle {
-    var type: ButtonType
-    
+struct PrimaryButtonUI: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
-        let style = getButtonStyle(for: type)
-        
         return configuration.label
-            .modifier(
-                _ButtonUI(
-                    backgroundColor: style.backgroundColor,
-                    foregroundStyle: style.foregroundStyle,
-                    cornerRadius: style.cornerRadius,
-                    maxWidth: style.maxWidth,
-                    maxHeight: style.maxHeight,
-                    horizontalPadding: style.horizontalPadding,
-                    bottomPadding: style.bottomPadding,
-                    font: style.font
-                )
-            )
+            .foregroundStyle(.secondary50)
+            .modifier(ButtonUiMd(.secondary900))
             .brightness(configuration.isPressed ? 0.2 : 0)
     }
-    
-    private func getButtonStyle(for type: ButtonType) -> ButtonStyleAttributes {
-        switch type {
-        case .primary:
-            return (
-                backgroundColor: .secondary950,
-                foregroundStyle: .secondary50,
-                cornerRadius: 7,
-                maxWidth: .infinity,
-                maxHeight: 48,
-                horizontalPadding: 0,
-                bottomPadding: 0,
-                font: .headline
-            )
-        case .secondary:
-            return (
-                backgroundColor: .secondary600,
-                foregroundStyle: .secondary50,
-                cornerRadius: 7,
-                maxWidth: .infinity,
-                maxHeight: 48,
-                horizontalPadding: 0,
-                bottomPadding: 0,
-                font: .headline
-            )
-        case .success:
-            return (
-                backgroundColor: .green,
-                foregroundStyle: .white,
-                cornerRadius: 25,
-                maxWidth: .infinity,
-                maxHeight: 60,
-                horizontalPadding: 15,
-                bottomPadding: 5,
-                font: .headline
-            )
-        case .danger:
-            return (
-                backgroundColor: .red,
-                foregroundStyle: .white,
-                cornerRadius: 25,
-                maxWidth: .infinity,
-                maxHeight: 60,
-                horizontalPadding: 15,
-                bottomPadding: 5,
-                font: .headline
-            )
-        }
+}
+
+struct SecondaryButtonUI: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        return configuration.label
+            .foregroundStyle(.secondary800)
+            .modifier(ButtonUiMd(.secondary100))
+            .brightness(configuration.isPressed ? 0.2 : 0)
     }
 }
 
 extension View {
     func buttonStyle(_ type: ButtonType) -> some View {
-        self.buttonStyle(ButtonUI(type: type))
+        switch type {
+        case .primary:
+            return AnyView(self.buttonStyle(PrimaryButtonUI()))
+        case .secondary:
+            return AnyView(self.buttonStyle(SecondaryButtonUI()))
+        }
     }
 }
 
-#Preview {
-    let function: () -> Void = {}
-    
-    HStack {
-        Button(action: function) {
-            Text("Annuler")
-        }
-        .buttonStyle(.secondary)
-        
-        Button(action: function) {
-            Text("Enregistrer")
-        }
-        .buttonStyle(.primary)
+extension ButtonStyle where Self == PrimaryButtonUI {
+    static var primary: PrimaryButtonUI {
+        PrimaryButtonUI()
     }
-    .padding(10)
 }
 
+extension ButtonStyle where Self == SecondaryButtonUI {
+    static var secondary: SecondaryButtonUI {
+        SecondaryButtonUI()
+    }
+}

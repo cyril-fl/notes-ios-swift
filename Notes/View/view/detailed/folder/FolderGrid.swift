@@ -1,21 +1,25 @@
 import SwiftUI
 
 struct FolderGridView: View {
+    @Environment(useFolder.self) private var folder
     var folders: [Folder]
         
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns) {
-                ForEach(folders, id: \.id) { folder in
-                    NavigationLink(destination: FilesDetailedView(folder: folder)) {
-                        FolderGridCard(_f: folder)
-                            .background(Color.white) // Couleur de fond blanche pour l'exemple
+                ForEach(folders, id: \.id) { _folder in
+                    NavigationLink(destination:
+                        FilesDetailedView()
+                            .onAppear {
+                                folder.current = _folder
+                        }
+                    ) {
+                        FolderGridCard(_folder)
                     }
                     .contextMenu{
-                        FolderAction(folder)
+                        FolderAction(_folder)
                     }
-                }
-                
+                } 
             }
         }
         .foregroundStyle(.secondary900)

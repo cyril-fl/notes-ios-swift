@@ -2,31 +2,33 @@ import SwiftUI
 
 struct HeaderButtonList: View {
     @Binding var display: DisplayMode
-    var addAction: () -> Void
+    
+    var add: () -> Void
     
     var body: some View {
         HStack {
-            ForEach(actionListItems, id: \.icon) { item in
+            ForEach(listedAction, id: \.icon) { item in
                 Button(action: item.action) {
-                    Image(systemName: item.icon)
+                    Label(item.icon, systemImage: item.icon)
                 }
             }
         }
     }
 
+    private var listedAction: [IconButtonInterface] {
+        [
+            IconButtonInterface(icon: toggledIcon, action: toggleViewMode),
+            IconButtonInterface(icon: "plus", action: add)
+        ]
+    }
+    
     private func toggleViewMode() {
         withAnimation {
             display.toggle()
         }
     }
-    private var actionListItems: [IconAction] {
-        [
-            (icon: toggleIcon, action: toggleViewMode),
-            (icon: "plus", action: addAction)
-        ]
-    }
     
-    private var toggleIcon: String {
+    private var toggledIcon: String {
         display == .list ? "square.grid.2x2" : "list.bullet"
     }
 }

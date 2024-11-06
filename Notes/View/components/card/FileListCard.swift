@@ -1,18 +1,38 @@
 import SwiftUI
 
 struct FileListCard: View {
-    var file: File
+    var _f: File
+    
+    init(_ file: File) {
+        self._f = file
+    }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(file.name)
-                .font(.headline)
-            Text("Path: \(file.path)")
-                .font(.subheadline)
-                .foregroundStyle(.secondary50)
-            Text("Last updated: \(file.lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
-                .font(.footnote)
-                .foregroundStyle(.secondary50)
+        HStack(alignment: .top) {
+            VStack(alignment: .leading) {
+                Name
+               
+                Text(_f.content)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary500)
+                    .lineLimit(2)
+                Text("\(_f.lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
+                    .font(.caption)
+                    .foregroundStyle(.secondary500)
+            }
+            Spacer()
+        }
+        .contentShape(Rectangle())
+        .frame(maxWidth: .infinity)
+    }
+    
+    var Name: some View {
+        Group {
+            if !_f.name.isEmpty {
+                Text(_f.name)
+                    .font(.headline)
+                    .foregroundStyle(.secondary900)
+            }
         }
     }
 }

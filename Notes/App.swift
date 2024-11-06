@@ -5,8 +5,24 @@ import SwiftData
 struct NotesApp: App {
     var body: some Scene {
         WindowGroup {
-            IndexView()
-                .modelContainer(for: Folder.self)
+            ZStack {
+                IndexView()
+                    .border(.accent)
+                    .modelContainer(for: Folder.self)
+                
+                WindowBis {
+                    VStack {
+                        Text("Hello from WindowBis")
+                            .font(.title)
+                        Button("Close") {
+                            // Action de fermeture ou autre logique ici
+                        }
+                    }
+                }
+            }
+            
         }
+        
+        
     }
 }

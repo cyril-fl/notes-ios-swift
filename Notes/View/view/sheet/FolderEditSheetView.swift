@@ -6,31 +6,35 @@ struct FolderEditSheetView: View {
     @Environment(useFolder.self) private var folder
 
     @State private var _name: String = ""
-        
+    @FocusState private var isFocus: Bool
+    
     var body: some View {
         Form {
             FormLabel
             
-            TextField(folder.name, text: $_name)
-            
-            Spacer()
-            
+            TextField(placeholder, text: $_name)
+                .padding(.vertical, 4)
+                .padding(.horizontal, 7)
+                .background(.secondary100)
+                .foregroundStyle(.secondary600)
+                .cornerRadius(10)
+                .focused($isFocus)
+                            
             HStack {
-                ForEach(actionListItems, id: \.label) { action in
+                ForEach(actionListItems, id: \.name) { action in
                     Button(action: action.action) {
-                        Text(action.label)
+                        Text(action.name)
                     }
                     .buttonStyle(action.style)
+                    .padding(.top, 10)
                 }
             }
+            
         }
-        .frame(maxWidth: 300, maxHeight: 150)
-        .padding(15)
-        .formStyle(.columns)
-        .background(Color(.systemGroupedBackground))
-        .cornerRadius(10)
+        .formStyle(.popup)
         .onAppear() {
-            _name = folder.name
+            _name = folder.name.isEmpty ? "Nouveau dossier" : folder.name
+            isFocus = true
         }
     }
     
@@ -38,19 +42,22 @@ struct FolderEditSheetView: View {
         Text("Renommer le dossier")
             .font(.title3)
             .fontWeight(.bold)
-            .foregroundStyle(.secondary50)
-            .padding(.bottom, 10)
+            .foregroundStyle(.secondary900)
     }
     
-    private var actionListItems: [LabelAction] {
+    private var actionListItems: [StyledButtonInterface] {
          [
-            (label: "Annuler", action: handleCancel, style: .secondary),
-            (label: "Enregistrer", action: handleSubmit, style: .primary)
+            StyledButtonInterface("Annuler", style: .secondary, action: handleCancel),
+            StyledButtonInterface("Enregistrer", style: .primary,  action: handleSubmit)
          ]
      }
     
+    private var placeholder: String {
+        return folder.name.isEmpty ? "Nouveau dossier" : folder.name
+    }
+    
     private func handleSubmit() {
-        folder.name = _name
+        folder.name = _name.isEmpty ? "Nouveau dossier" : _name
         dismiss()
     }
 

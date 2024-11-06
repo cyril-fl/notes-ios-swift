@@ -3,6 +3,7 @@ import SwiftUI
 struct FolderAction: View {
     @Environment(\.modelContext) private var context
     @Environment(useFolder.self) private var folder
+    @Environment(useAlert.self) private var alert
 
     var _f: Folder
     
@@ -11,34 +12,59 @@ struct FolderAction: View {
     }
     
     var body: some View {
-        ForEach(actionList(_f), id: \.label) { a in
-            ActionButton(label: a.label, icon: a.icon, color: a.color, action: a.action)
+        ForEach(listedAction(_f), id: \.name) { a in
+            SwipeButton(label: a.name, icon: a.icon, color: a.color, action: a.action)
         }
     }
     
-    private func ActionButton(label: String, icon: String, color: Color, action: @escaping () -> Void) -> some View {
+    private func SwipeButton(label: String, icon: String, color: Color, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Label(label, systemImage: icon)
+            ButtonLabel(label, icon)
                 .foregroundStyle(.secondary50)
         }
         .tint(color)
     }
-
-    private func actionList(_ _folder: Folder) -> [ActionItem] {
+    
+    private func ButtonLabel(_ label: String, _ icon: String) -> some View {
+        Group {
+            switch folder.display {
+            case .list:
+                Image(systemName: icon)
+            case .grid:
+                Label(label, systemImage: icon)
+            }
+        }
+    }
+    
+    private func listedAction(_ _folder: Folder) -> [SwipeButtonInterface] {
         return [
-            ActionItem(label: "Delete", icon: "trash", color: .secondary950) {
-                deleteFolder(_folder)
+            SwipeButtonInterface("Delete", icon: "trash", color: .secondary950) {
+                delete(_folder)
             },
-            ActionItem(label: "Edit", icon: "square.and.pencil", color: .secondary600) {
+            SwipeButtonInterface("Edit", icon: "pencil", color: .secondary600) {
                 folder.keepOnCancel()
                 folder.current = _folder
+                folder.editing.toggle()
             }
         ]
     }
     
-    private func deleteFolder(_ folder: Folder) {
+    private func delete(_ _folder: Folder) {
         withAnimation {
-            context.delete(folder)
+            if _folder.files.count == 0 {
+                context.delete(_folder)
+                return
+            }
+            
+            alert.title = "Suppression du dossier"
+            alert.message = "Votre dossier contient des notes. Le supprimer entraînera la suppression de tout son contenu. Voulez-vous continuer ?"
+            alert.isPresented.toggle()
+            alert.actions = [
+                RoleButtonInterface("Annuler", role: .cancel, action: {}),
+                RoleButtonInterface("Supprimer", role: .destructive, action: {
+                    context.delete(_folder)
+                })
+            ]
         }
     }
 }

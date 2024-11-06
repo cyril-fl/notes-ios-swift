@@ -9,29 +9,30 @@ struct FoldersDetailedView: View {
             FoldersContentView()
             screenColorOverlay()
         }
-        .fullScreenCover(item: folder.boundSelected) { folder in
+        .fullScreenCover(isPresented: folder.boundEditing, content: {
             FolderEditSheetView()
                 .presentationBackground(Color.clear)
-        }
-        .navigationTitle("Folders")
+        })
+        .navigationTitle("Fichiers")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                HeaderButtonList(display: folder.boundDisplay, addAction: addFolder)
+                HeaderButtonList(display: folder.boundDisplay, add: addFolder)
             }
         }
     }
     
     private func addFolder() {
         withAnimation {
-            let _new = Folder(name: "New Folder", path: "/")
+            let _new = Folder(name: "", path: "/")
             context.insert(_new)
             folder.deleteOnCancel()
             folder.current = _new
+            folder.editing.toggle()
         }
     }
     
     private func screenColorOverlay() -> some View {
-        folder.current != nil
+        folder.editing
         ? ScreenColorOverlay()
         : nil;
     }

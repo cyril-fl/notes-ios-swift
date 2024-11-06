@@ -3,20 +3,4 @@
    uuid = "EEA2928C-399F-4185-9D25-567A4AA18698"
    type = "1"
    version = "2.0">
-   <Breakpoints>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "254DCEAC-9191-4568-9F03-B8A2C6814B39"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../../../../var/folders/06/vf_krp0s1dbbzz95grlx94f00000gn/T/swift-generated-sources/@__swiftmacro_5Notes9useFolderC8_display33_E4B5E96D5FDF494568ED8F5A381BCBACLL18ObservationTrackedfMp_.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1"
-            endingLineNumber = "1">
-         </BreakpointContent>
-      </BreakpointProxy>
-   </Breakpoints>
 </Bucket>
