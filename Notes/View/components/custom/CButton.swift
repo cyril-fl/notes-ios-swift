@@ -46,13 +46,12 @@ struct CButton: View {
             idealHeight: self.frame.height,
             maxHeight: self.frame.height
         )
-        
-//        .cornerRadius(isRounded ? frame.width : 0)
+        .cornerRadius(isRounded ? frame.width : 0)
         .overlay(isDisabled ? Overlay  : nil)
         .disabled(isDisabled)
     }
     
-    var frame: (width: CGFloat?, height: CGFloat, maxWidth: CGFloat) {
+    var frame: (width: CGFloat, height: CGFloat, maxWidth: CGFloat) {
         switch size {
         case .xs:
             return (width: 40, height: 40, maxWidth: 40)
@@ -68,7 +67,8 @@ struct CButton: View {
     var Content: some View {
         Group {
             if isLoading {
-                CLoader(isAnimated: $isLoading)
+                CLoader("arrow.trianglehead.2.clockwise.rotate.90", isGradient: false, isAnimated: $isLoading)
+                    
                     .padding(7)
             } else if !name.isEmpty && !icon.isEmpty {
                 Label(name, systemImage: icon)
@@ -100,7 +100,7 @@ struct ContentView: View {
                 isLoading.toggle()
             }
         }
-        .background(.red)
+        
     }
 }
 

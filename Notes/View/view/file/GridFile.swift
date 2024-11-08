@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FileGridView: View {
+struct GridFileView: View {
     @Environment(useFolder.self) private var folder
     @Environment(useFile.self) private var file
     
@@ -14,7 +14,7 @@ struct FileGridView: View {
                             file.editing.toggle()
                         }
                         .contextMenu{
-                            FileAction(_file)                        
+                            ActionFileView(_file)                        
                         }
                 }
             }

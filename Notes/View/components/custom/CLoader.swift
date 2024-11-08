@@ -38,6 +38,8 @@ struct CLoader: View {
                 .mask {
                     Image(systemName: icon)
                         .resizable()
+                        .aspectRatio(contentMode: .fit)
+
                 }
                 .rotationEffect(.degrees(rotate))
                 .onAppear {

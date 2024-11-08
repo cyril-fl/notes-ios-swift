@@ -18,7 +18,7 @@ final class useFolder: ObservableObject {
             current?.name ?? "undefined"
         }
         set {
-            current?.name = newValue
+            current?.name = useValidate.text(newValue) ?? "Err"
         }
     }
     var path: String {

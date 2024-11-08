@@ -1,6 +1,5 @@
 import SwiftUI
 
-// Struc
 struct IconButtonInterface: Iconed, Action {
     let icon: String
     let action: () -> Void

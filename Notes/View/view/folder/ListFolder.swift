@@ -7,7 +7,7 @@ struct ListFolderView: View {
     var body: some View {
         List(folders, id: \.id) { _folder in
             NavigationLink(destination:
-                FilesDetailedView()
+                DetailedFileView()
                     .onAppear {
                         folder.current = _folder
                 }

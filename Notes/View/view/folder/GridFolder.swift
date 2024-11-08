@@ -9,7 +9,7 @@ struct GridFolderView: View {
             LazyVGrid(columns: columns) {
                 ForEach(folders, id: \.id) { _folder in
                     NavigationLink(destination:
-                        FilesDetailedView()
+                        DetailedFileView()
                             .onAppear {
                                 folder.current = _folder
                         }

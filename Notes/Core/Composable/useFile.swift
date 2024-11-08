@@ -18,7 +18,7 @@ final class useFile: ObservableObject {
             current?.name ?? "undefined"
         }
         set {
-            current?.name = newValue
+            current?.name = useValidate.text(newValue) ?? "Err"
         }
     }
     var content: String {
@@ -26,7 +26,7 @@ final class useFile: ObservableObject {
             current?.content ?? "undefined"
         }
         set {
-            current?.content = newValue
+            current?.content = useValidate.text(newValue) ?? "Err"
         }
     }
     var delete: Bool {

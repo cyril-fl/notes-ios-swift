@@ -8,14 +8,11 @@ struct DetailedFileView: View {
         ZStack {
             FilesContentView()
         }
-        .fullScreenCover(isPresented: file.boundEditing) {
-
-            CModal(cornerRadius: 25, backgroundColor: .red) {
-                            Text("Contenu personnalisé pour la modal") // Contenu personnalisé ici
-                                .padding()
-                        }
-                .presentationBackground(.clear)
+        .fullScreenModal(isPresented: file.boundEditing) {
+            FormFileView()
         }
+        
+        
         .navigationTitle(folder.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

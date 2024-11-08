@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FileAction: View {
+struct ActionFileView: View {
     @Environment(useFolder.self) private var folder
     @Environment(useFile.self) private var file
 
@@ -37,7 +37,7 @@ struct FileAction: View {
     
     private func listedAction(_ _file: File) -> [SwipeButtonInterface] {
         return [
-            SwipeButtonInterface("Delete", icon: "trash", color: .secondary950) {
+            SwipeButtonInterface("Delete", icon: "trash", color: .destructive) {
                 deleteFile(_file)
             }
         ]

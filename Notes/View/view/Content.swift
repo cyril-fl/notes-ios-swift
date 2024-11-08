@@ -8,15 +8,13 @@ struct IndexView: View {
     @State private var alert = useAlert()
     @StateObject private var search = useSearch()
 
-    @State private var isFullScreenPresented = false
-
     var body: some View {
         NavigationView {
             VStack {
                 if !search.query.isEmpty {
                     SearchView(search.query)
                 }
-                FoldersDetailedView()
+                DetailedFolderView()
             }
             .environmentObject(search)
         }

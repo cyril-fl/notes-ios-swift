@@ -18,7 +18,6 @@ struct FormFileView: View {
                 .focused($isFocus)
         }
         .formStyle(.reset)
-        .background(Color(.systemGroupedBackground))
         .onAppear {
             _name = file.name
             _content = file.content

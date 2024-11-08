@@ -14,10 +14,10 @@ struct FoldersContentView: View {
             Group {
                 switch folder.display {
                 case .list:
-                    FolderListView(folders: folders)
+                    ListFolderView(folders: folders)
                         .transition(.move(edge: .leading).combined(with: .opacity))
                 case .grid:
-                    FolderGridView(folders: folders)
+                    GridFolderView(folders: folders)
                         .transition(.move(edge: .leading).combined(with: .opacity))
                 }
             }
@@ -37,10 +37,10 @@ struct FilesContentView: View {
             Group {
                 switch file.display {
                 case .list:
-                    FileListView()
+                    ListFileView()
                         .transition(.move(edge: .leading).combined(with: .opacity))
                 case .grid:
-                    FileGridView()
+                    GridFileView()
                         .transition(.move(edge: .trailing).combined(with: .opacity))
                 }
             }

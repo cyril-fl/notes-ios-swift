@@ -10,7 +10,7 @@ struct DetailedFolderView: View {
             screenColorOverlay()
         }
         .fullScreenCover(isPresented: folder.boundEditing, content: {
-            FolderEditSheetView()
+            FormFolderView()
                 .presentationBackground(Color.clear)
         })
         .navigationTitle("Fichiers")

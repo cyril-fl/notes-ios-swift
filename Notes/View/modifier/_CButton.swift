@@ -44,7 +44,7 @@ struct SecondaryButtonUI: ButtonStyle {
 struct AccentButtonUI: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         return configuration.label
-            .foregroundStyle(.accent)
+            .foregroundStyle(.primary500)
     }
 }
 

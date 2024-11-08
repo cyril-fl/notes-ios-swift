@@ -2,9 +2,10 @@ import Foundation
 import SwiftData
 
 @Model
-class File {
+class File: Identifiable {
     #Unique<File>([\.id])
 
+    // TODO la relation inverse ne se fait pas
     private(set) final var id: UUID
     var name: String {
         didSet { lastUpdateDate = Date() }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 
-struct FileListView: View {
+struct ListFileView: View {
     @Environment(useFolder.self) private var folder
     @Environment(useFile.self) private var file
     
@@ -13,7 +13,7 @@ struct FileListView: View {
                     file.editing.toggle()
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    FileAction(_file)
+                    ActionFileView(_file)
                 }
         }
         .listStyle(.plain)

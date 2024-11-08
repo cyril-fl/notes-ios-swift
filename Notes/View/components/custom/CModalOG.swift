@@ -78,7 +78,7 @@ class _CModal: UIViewController {
     }
 }
 
-struct CModal<Content: View>: UIViewControllerRepresentable {
+struct CModalOG<Content: View>: UIViewControllerRepresentable {
     @Binding var isPresented: Bool
     var cornerRadius: CGFloat
     var backgroundColor: UIColor

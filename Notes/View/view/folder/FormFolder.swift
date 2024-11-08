@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FolderEditSheetView: View {
+struct FormFolderView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @Environment(useFolder.self) private var folder
