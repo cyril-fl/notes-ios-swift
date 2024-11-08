@@ -119,18 +119,39 @@ struct FullScreenCoverView<Content: View>: UIViewControllerRepresentable {
     }
 }
 extension View {
-    func customFullScreenCover<Content: View>(isPresented: Binding<Bool>, cornerRadius: CGFloat = 0, backgroundColor: UIColor = .red, @ViewBuilder content: @escaping () -> Content) -> some View {
+    func customFullScreenCover<Content: View>(
+        isPresented: Binding<Bool>,
+        cornerRadius: CGFloat = 0,
+        backgroundColor: UIColor = .red,
+        @ViewBuilder content: @escaping () -> Content
+    ) -> some View {
         
-        ZStack {
+        // Utiliser l'EnvironmentObject pour accéder au modal content
+        @EnvironmentObject var modalContent: useModal
+        
+        // Retourner une vue
+        return ZStack {
             self // Vue principale
-            
+
+            // Si la modale est présentée
             if isPresented.wrappedValue {
                 Color.black.opacity(0.5) // Fond semi-transparent
                     .edgesIgnoringSafeArea(.all)
                 
+                // Afficher la vue modale
                 FullScreenCoverView(isPresented: isPresented, cornerRadius: cornerRadius, backgroundColor: backgroundColor, content: content)
                     .edgesIgnoringSafeArea(.all)
             }
         }
+//        .onChange(of: isPresented.wrappedValue) { newValue in
+//            // Lorsque l'état de la modale change, mettre à jour le contenu
+//            if newValue {
+//                // Lors de l'ouverture de la modale, définir le contenu
+//                modalContent.content = AnyView(content())
+//            } else {
+//                // Lors de la fermeture de la modale, réinitialiser le contenu
+//                modalContent.content = nil
+//            }
+//        }
     }
 }

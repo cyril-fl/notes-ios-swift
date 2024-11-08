@@ -3,6 +3,8 @@ import SwiftUI
 enum ButtonType {
     case primary
     case secondary
+    case accent
+    case disable
 }
 
 struct ButtonUiMd: ViewModifier {
@@ -14,7 +16,7 @@ struct ButtonUiMd: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .frame(maxWidth: .infinity, maxHeight: 45)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .font(.headline)
             .background(bgColor)
             .cornerRadius(5)
@@ -39,6 +41,22 @@ struct SecondaryButtonUI: ButtonStyle {
     }
 }
 
+struct AccentButtonUI: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        return configuration.label
+            .foregroundStyle(.accent)
+    }
+}
+
+struct DisableButtonUI: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        return configuration.label
+            .foregroundStyle(.secondary400)
+            .modifier(ButtonUiMd(.secondary100))
+            .disabled(true)
+    }
+}
+
 extension View {
     func buttonStyle(_ type: ButtonType) -> some View {
         switch type {
@@ -46,6 +64,10 @@ extension View {
             return AnyView(self.buttonStyle(PrimaryButtonUI()))
         case .secondary:
             return AnyView(self.buttonStyle(SecondaryButtonUI()))
+        case .accent:
+            return AnyView(self.buttonStyle(AccentButtonUI()))
+        case .disable:
+            return AnyView(self.buttonStyle(DisableButtonUI()))
         }
     }
 }

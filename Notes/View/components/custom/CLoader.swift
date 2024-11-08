@@ -1,0 +1,89 @@
+import SwiftUI
+
+struct CLoader: View {
+    private let icon: String
+    private let gradient: Bool
+    private let color: Color
+    private let speed: Double
+    @Binding private var isAnimated: Bool
+    
+    @State private var rotate: Double = 0
+
+    // Initialisation des paramètres
+    init(
+        _ icon: String = "circle.dotted",
+        speed: Double = 0.4,
+        color: Color = .secondary50,
+        isGradient: Bool = true,
+        isAnimated: Binding<Bool> = .constant(false)
+    ) {
+        self.icon = icon
+        self.speed = speed
+        self.color = color  // Correction de l'assignation
+        self.gradient = isGradient
+        self._isAnimated = isAnimated
+    }
+    
+    // Définir l'animation
+    private var rotationAnimation: Animation {
+        .linear(duration: 1)
+            .speed(speed)
+            .repeatForever(autoreverses: false)
+    }
+    
+    var body: some View  {
+        if isAnimated {
+            Circle()
+                .foregroundStyle(foreground)
+                .mask {
+                    Image(systemName: icon)
+                        .resizable()
+                }
+                .rotationEffect(.degrees(rotate))
+                .onAppear {
+                    withAnimation(rotationAnimation) {  // Utilisation de rotationAnimation
+                        rotate = 360.0
+                    }
+                }
+                .onDisappear {
+                    rotate = 0
+                }
+        }
+    }
+    
+    private var foreground: some ShapeStyle {
+        let colors: [Color] = gradient ? [
+            color.opacity(0.2),
+            color.opacity(0.3),
+            color.opacity(0.75),
+            color
+        ] : [color]
+        
+        return AngularGradient(
+            gradient: Gradient(colors: colors),
+            center: .center,
+            angle: .degrees(360)
+        )
+    }
+}
+
+struct AnimationTest: View {
+    @State private var isLoading: Bool = false
+    
+    var body: some View {
+        Button("Animate") {
+            isLoading.toggle()
+        }
+        
+        VStack {
+            CLoader(isAnimated: $isLoading)
+                .frame(width: 50, height: 50)
+        }
+        .padding(10)
+        .background(.secondary600)
+    }
+}
+
+#Preview {
+    AnimationTest()
+}

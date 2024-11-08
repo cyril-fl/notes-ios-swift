@@ -3,26 +3,22 @@ import SwiftData
 
 @main
 struct NotesApp: App {
+//    @StateObject var CModals = useModal() // L'objet global contenant le contenu modal
+    
     var body: some Scene {
         WindowGroup {
             ZStack {
                 IndexView()
-                    .border(.accent)
+//                    .border(.accent)
                     .modelContainer(for: Folder.self)
                 
-                WindowBis {
-                    VStack {
-                        Text("Hello from WindowBis")
-                            .font(.title)
-                        Button("Close") {
-                            // Action de fermeture ou autre logique ici
-                        }
-                    }
-                }
+//                CModal()
             }
-            
+//            .environmentObject(CModals) // Injecter l'EnvironmentObject ici
+//            .onAppear {
+//                // Définir le contenu à afficher dans la fenêtre modale
+//                CModals.content = AnyView(EmptyView())
+//            }
         }
-        
-        
     }
 }

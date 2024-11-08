@@ -35,7 +35,7 @@ final class useAlert: ObservableObject {
     
     func displayAction() -> some View {
         ForEach(actions, id: \.name) { a in
-            Button(a.name, role: a.role, action: a.action)
+            CButton(a.name, action: a.action)
         }
     }
     

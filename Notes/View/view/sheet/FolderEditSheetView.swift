@@ -22,10 +22,7 @@ struct FolderEditSheetView: View {
                             
             HStack {
                 ForEach(actionListItems, id: \.name) { action in
-                    Button(action: action.action) {
-                        Text(action.name)
-                    }
-                    .buttonStyle(action.style)
+                    CButton(action.name, style: action.style, action: action.action)
                     .padding(.top, 10)
                 }
             }

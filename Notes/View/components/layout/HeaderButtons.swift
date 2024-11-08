@@ -8,9 +8,7 @@ struct HeaderButtonList: View {
     var body: some View {
         HStack {
             ForEach(listedAction, id: \.icon) { item in
-                Button(action: item.action) {
-                    Label(item.icon, systemImage: item.icon)
-                }
+                CButton(item.icon, icon: item.icon, style: .accent, size: .xs ,action: item.action)
             }
         }
     }
