@@ -24,7 +24,6 @@ struct CLoader: View {
         self._isAnimated = isAnimated
     }
     
-    // Définir l'animation
     private var rotationAnimation: Animation {
         .linear(duration: 1)
             .speed(speed)

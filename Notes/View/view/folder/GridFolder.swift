@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct GridFolderView: View {
-    @Environment(useFolder.self) private var folder
+    @EnvironmentObject private var folder : useFolder
     var folders: [Folder]
         
     var body: some View {

@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct DetailedFileView: View {
-    @Environment(useFolder.self) private var folder
-    @Environment(useFile.self) private var file
+    @EnvironmentObject private var folder : useFolder
+    @EnvironmentObject private var file : useFile
+    @StateObject private var display = useDisplay(preset: .grid)
     
     var body: some View {
         ZStack {
@@ -11,18 +12,17 @@ struct DetailedFileView: View {
         .fullScreenModal(isPresented: file.boundEditing) {
             FormFileView()
         }
-        
-        
         .navigationTitle(folder.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                HeaderButtonList(display: file.boundDisplay, add: addFile)
+                HeaderButtonList(add: addFile)
             }
         }
+        .environmentObject(display)
     }
     
     private func addFile() {
-        let _new = File(name: "Nouvelle note", content: "", path: "\(folder.path)\(folder.name)")
+        let _new = File(path: "\(folder.path)\(folder.name)")
         
         withAnimation {
             folder.files.append(_new)

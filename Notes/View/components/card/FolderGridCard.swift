@@ -1,10 +1,17 @@
 import SwiftUI
 
 struct FolderGridCard: View {
-    var _f: Folder
+    @Environment(\.defaultFolderName) private var defaultName
+    @EnvironmentObject private var folder: useFolder
+        
+    private let key: UUID
+    @State private var name: String
+    @State private var lastUpdateDate: Date
     
-    init(_ _f: Folder) {
-        self._f = _f
+    init(_ folder: Folder) {
+        self.key = folder.id
+        self._name = State(initialValue: folder.name)
+        self._lastUpdateDate = State(initialValue: folder.lastUpdateDate)
     }
     
     var body: some View {
@@ -15,11 +22,11 @@ struct FolderGridCard: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 60, height: 60)
                     .foregroundStyle(.secondary800)
-                Text(_f.name)
+                Text(name)
                     .font(.headline)
                 
                 Group {
-                    Text("\(_f.lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
+                    Text("\(lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
                         .font(.footnote)
                 }
                 .foregroundStyle(.secondary500)
@@ -27,5 +34,19 @@ struct FolderGridCard: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground)) // TODO : Supprimer  quand j'aurais gerer l'élément de survol.
+        .onAppear {
+            name = name.isEmpty ? defaultName : name
+           }
+        .onChange(of: folder.editing, initial: false) {
+            if !folder.editing {
+                updateView()
+            }
+        }
+    }
+    
+    private func updateView() {
+        guard folder.id == key else { return }
+        name = folder.name
+        lastUpdateDate = folder.lastModified
     }
 }

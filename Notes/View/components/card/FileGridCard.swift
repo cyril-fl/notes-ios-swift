@@ -1,10 +1,20 @@
 import SwiftUI
 
 struct FileGridCard: View {
-    var _f: File
+    @Environment(\.defaultFileName) private var defaultName
+    @EnvironmentObject private var file : useFile
+
+    private let key: UUID
+    @State private var name: String
+    @State private var content: String
+    @State private var lastUpdateDate: Date
+    @State private var isLoaded: Bool = false
     
     init(_ file: File) {
-        self._f = file
+        self.key = file.id
+        self._name = State(initialValue: file.name.isEmpty ? "Nouvelle note" : file.name)
+        self._content = State(initialValue: file.content)
+        self._lastUpdateDate = State(initialValue: file.lastUpdateDate)
     }
     
     var body: some View {
@@ -12,11 +22,11 @@ struct FileGridCard: View {
             VStack {
                 Content
 
-                Text(_f.name)
+                Text(name)
                     .font(.headline)
                 
                 Group {
-                    Text("\(_f.lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
+                    Text("\(lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
                         .font(.footnote)
                 }
                 .foregroundStyle(.secondary500)
@@ -24,12 +34,30 @@ struct FileGridCard: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground)) // TODO : Supprimer  quand j'aurais gerer l'élément de survol.
+        .onChange(of: file.current) {
+            guard file.current !== nil else { return }
+            guard !isLoaded else { return }
+            name = file.name.isEmpty ? defaultName : file.name
+            isLoaded = true
+        }
+        .onChange(of: file.editing) {
+            if !file.editing {
+                updateView()
+            }
+        }
+    }
+    
+    private func updateView() {
+        guard file.id == key else { return }
+        name = file.name
+        content = file.content
+        lastUpdateDate = file.lastModified
     }
     
     var Content: some View {
         HStack(alignment: .top) {
             VStack {
-                Text(_f.content)
+                Text(content)
                     .font(.caption)
                 Spacer()
             }

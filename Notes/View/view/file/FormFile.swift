@@ -1,48 +1,63 @@
 import SwiftUI
 
 struct FormFileView: View {
-    @Environment(useFolder.self) private var folder
-    @Environment(useFile.self) private var file
+    @Environment(\.defaultFileName) private var defaultName
+    @EnvironmentObject private var folder : useFolder
+    @EnvironmentObject private var file : useFile
 
-    @State private var _name: String = "Titre"
+    @State private var _name: String = ""
     @State private var _content: String = ""
-    @FocusState private var isFocus: Bool
+    @State private var _placeholder: String = ""
+    @FocusState private var isNameFocused: Bool
+    @FocusState private var isContentFocused: Bool
 
     var body: some View {
         Form {
-            TextField(file.name, text: $_name)
+            TextField(_placeholder, text: $_name)
                 .font(.title3)
                 .fontWeight(.semibold)
+                .focused($isNameFocused)
+                .tint(.primary600)
             TextEnhancedEditor(text: $_content)
                 .textEditorForegroundColor(.secondary950)
-                .focused($isFocus)
+                .focused($isContentFocused)
+                .tint(.primary600)
         }
         .formStyle(.reset)
         .onAppear {
-            _name = file.name
+            _name = file.name.isEmpty ? defaultName : file.name
+            _placeholder = file.name.isEmpty ? defaultName : file.name
             _content = file.content
-            isFocus = true
+            handleFocus()
+        }
+        .onChange(of: _name, initial: false) { old, new in
+            file.name = new
+        }
+        .onChange(of: _content, initial: false) { old, new in
+            file.content = new
         }
         .onDisappear {
-            handleSubmit()
+            handleAutoDelete()
         }
     }
     
-    private func handleSubmit() {
-        let _temp_name = _name.trimmingCharacters(in: .whitespacesAndNewlines)
-        let temp_content = _content.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        
-        let temp_name = _temp_name.isEmpty ? "Nouvelle note" : _temp_name
-        
-        if temp_content.isEmpty,
-            let temp_fo = folder.current,
-            let temp_fi = file.current {
-            temp_fo.deleteFileById(fileId: temp_fi.id)
-            return
+    private func handleFocus() {
+        if file.name.isEmpty {
+            isNameFocused = true
+            isContentFocused = false
+        } else {
+            isNameFocused = false
+            isContentFocused = true
         }
+    }
+    
+    private func handleAutoDelete() {
+        guard _content.isEmpty else { return }
+        guard let idToDelete = file.current?.id else { return }
+        guard let folderToUpdate = folder.current else { return }
         
-        file.name = temp_name
-        file.content = temp_content
+        withAnimation {
+            folderToUpdate.deleteFileById(fileId: idToDelete)
+        }
     }
 }

@@ -1,24 +1,27 @@
 import SwiftUI
 
 struct FormFolderView: View {
+    @Environment(\.defaultFolderName) private var defaultName
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @Environment(useFolder.self) private var folder
-
+    @EnvironmentObject private var folder : useFolder
+    
     @State private var _name: String = ""
+    @State private var _placeholder: String = ""
     @FocusState private var isFocus: Bool
     
     var body: some View {
         Form {
             FormLabel
             
-            TextField(placeholder, text: $_name)
+            TextField(_placeholder, text: $_name)
                 .padding(.vertical, 4)
                 .padding(.horizontal, 7)
                 .background(.secondary100)
                 .foregroundStyle(.secondary600)
                 .cornerRadius(10)
                 .focused($isFocus)
+                .tint(.primary500)
                             
             HStack {
                 ForEach(actionListItems, id: \.name) { action in
@@ -26,12 +29,15 @@ struct FormFolderView: View {
                     .padding(.top, 10)
                 }
             }
-            
         }
         .formStyle(.popup)
         .onAppear() {
-            _name = folder.name.isEmpty ? "Nouveau dossier" : folder.name
+            _name = folder.name.isEmpty ? defaultName : folder.name
+            _placeholder = folder.name.isEmpty ? defaultName : folder.name
             isFocus = true
+        }
+        .onChange(of: _name) { old, new in
+            folder.name = new
         }
     }
     
@@ -49,12 +55,8 @@ struct FormFolderView: View {
          ]
      }
     
-    private var placeholder: String {
-        return folder.name.isEmpty ? "Nouveau dossier" : folder.name
-    }
     
     private func handleSubmit() {
-        folder.name = _name.isEmpty ? "Nouveau dossier" : _name
         dismiss()
     }
 

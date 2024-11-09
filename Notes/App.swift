@@ -6,12 +6,16 @@ struct NotesApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                IndexView()
+                Index()
                     .modelContainer(for: Folder.self)
             }
         }
     }
 }
+
+
+
+
 
 
 struct AppDeleteAll: App {

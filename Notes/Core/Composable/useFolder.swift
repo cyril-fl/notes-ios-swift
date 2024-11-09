@@ -2,23 +2,28 @@ import Foundation
 import SwiftUI
 import Observation
 
+// TODOO Regarder pour faire une composable private comme useItem pour simplifier les deux
+
 @Observable
 final class useFolder: ObservableObject {
     private var _folder: Folder?
     private var _deleteOnCancel: Bool  = false
     private var _isEditing: Bool = false
-    private var _display: DisplayMode = .list
 
     var current: Folder? {
         get { _folder }
         set { _folder = newValue }
+    }
+    var id: UUID {
+        get { current?.id ?? UUID() }
+        set {  }
     }
     var name: String {
         get {
             current?.name ?? "undefined"
         }
         set {
-            current?.name = useValidate.text(newValue) ?? "Err"
+            current?.name = useValidate.text(newValue) ?? ""
         }
     }
     var path: String {
@@ -40,6 +45,10 @@ final class useFolder: ObservableObject {
             current?.files = newValue
         }
     }
+    var lastModified: Date {
+        get { current?.lastUpdateDate ?? Date() }
+        set {  }
+    }
     var delete: Bool {
         get {_deleteOnCancel}
         set {}
@@ -54,13 +63,14 @@ final class useFolder: ObservableObject {
         get {_isEditing}
         set {_isEditing = newValue}
     }
-    var display: DisplayMode {
-        get {_display}
-        set {_display = newValue}
-    }
     
-
     /* BINDING */
+    var boundName: Binding<String> {
+        Binding(
+            get: { self.name },
+            set: { self.name = $0 }
+        )
+    }
     var boundSelected: Binding<Folder?> {
         Binding(
             get: { self._folder },
@@ -83,12 +93,6 @@ final class useFolder: ObservableObject {
         Binding(
             get: { self._isEditing },
             set: { self._isEditing = $0 }
-        )
-    }
-    var boundDisplay: Binding<DisplayMode> {
-        Binding(
-            get: { self._display },
-            set: { self._display = $0 }
         )
     }
 }

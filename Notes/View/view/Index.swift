@@ -1,12 +1,14 @@
 import SwiftUI
 import SwiftData
 
-struct IndexView: View {
-    // TODO : Remplacer les state classique par des stateObjet (plus de perf)
-    @State private var fo_current = useFolder()
-    @State private var fi_current = useFile()
-    @State private var alert = useAlert()
+struct Index: View {
+    @StateObject private var fo_current = useFolder()
+    @StateObject private var fi_current = useFile()
+    @StateObject private var alert = useAlert()
     @StateObject private var search = useSearch()
+    @StateObject private var display = useDisplayV2()
+
+
 
     var body: some View {
         NavigationView {
@@ -18,9 +20,10 @@ struct IndexView: View {
             }
             .environmentObject(search)
         }
-        .environment(fo_current)
-        .environment(fi_current)
-        .environment(alert)
+        .environmentObject(fo_current)
+        .environmentObject(fi_current)
+        .environmentObject(alert)
+        .environmentObject(display)
         .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Recherche"))
         .onChange(of: search.query, {
             print("Search: \(search.query)")
@@ -34,9 +37,9 @@ struct IndexView: View {
 }
 
 #Preview {
-    IndexView()
-        .environment(useFolder())
-        .environment(useFile())
-        .environment(useAlert())
+    Index()
+        .environmentObject(useFolder())
+        .environmentObject(useFile())
+        .environmentObject(useAlert())
         .modelContainer(for: Folder.self)
 }

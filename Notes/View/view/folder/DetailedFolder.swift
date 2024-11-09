@@ -2,23 +2,24 @@ import SwiftUI
 
 struct DetailedFolderView: View {
     @Environment(\.modelContext) private var context
-    @Environment(useFolder.self) private var folder
-
+    @EnvironmentObject private var folder : useFolder
+    @StateObject private var display = useDisplay(preset: .list)
+    
+    
     var body: some View {
         ZStack {
             FoldersContentView()
-            screenColorOverlay()
         }
-        .fullScreenCover(isPresented: folder.boundEditing, content: {
+        .fullScreenModal(isPresented: folder.boundEditing, color: .clear, drag: false) {
             FormFolderView()
-                .presentationBackground(Color.clear)
-        })
+        }
         .navigationTitle("Fichiers")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                HeaderButtonList(display: folder.boundDisplay, add: addFolder)
+                HeaderButtonList(add: addFolder)
             }
         }
+        .environmentObject(display)
     }
     
     private func addFolder() {
@@ -29,11 +30,5 @@ struct DetailedFolderView: View {
             folder.current = _new
             folder.editing.toggle()
         }
-    }
-    
-    private func screenColorOverlay() -> some View {
-        folder.editing
-        ? ScreenColorOverlay()
-        : nil;
     }
 }

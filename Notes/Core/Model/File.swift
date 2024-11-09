@@ -20,7 +20,7 @@ class File: Identifiable {
     var lastUpdateDate: Date
 
     
-    init(name: String, content: String, path: String) {
+    init(name: String = "", content: String = "", path: String) {
         self.id = UUID()
         self.name = name
         self.content = content

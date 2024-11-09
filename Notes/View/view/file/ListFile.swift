@@ -2,8 +2,8 @@ import SwiftUI
 
 
 struct ListFileView: View {
-    @Environment(useFolder.self) private var folder
-    @Environment(useFile.self) private var file
+    @EnvironmentObject private var folder : useFolder
+    @EnvironmentObject private var file : useFile
     
     var body: some View {
         List(folder.files, id: \.self) { _file in
