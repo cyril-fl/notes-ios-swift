@@ -7,17 +7,16 @@ final class useFile: ObservableObject {
     private var _file: File?
     private var _deleteOnCancel: Bool  = false
     private var _isEditing: Bool = false
+    private var _display: DisplayMode = .grid
     
     var current: File? {
         get { _file }
         set { _file = newValue }
     }
-    
     var id: UUID {
         get { current?.id ?? UUID() }
         set {  }
     }
-    
     var name: String {
         get {
             current?.name ?? "undefined"
@@ -38,7 +37,6 @@ final class useFile: ObservableObject {
         get { current?.lastUpdateDate ?? Date() }
         set {  }
     }
-    
     var delete: Bool {
         get {_deleteOnCancel}
         set {}
@@ -53,7 +51,11 @@ final class useFile: ObservableObject {
         get {_isEditing}
         set {_isEditing = newValue}
     }
-
+    var display: DisplayMode {
+        get {_display}
+        set {_display = newValue}
+    }
+    
     /* BINDING */
     var boundName: Binding<String> {
         Binding(
@@ -87,5 +89,12 @@ final class useFile: ObservableObject {
             set: { self._isEditing = $0 }
         )
     }
+    var boundDisplay: Binding<DisplayMode> {
+        Binding(
+            get: { self._display },
+            set: { self._display = $0 }
+        )
+    }
+    
 }
 

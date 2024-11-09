@@ -9,10 +9,12 @@ final class useFolder: ObservableObject {
     private var _folder: Folder?
     private var _deleteOnCancel: Bool  = false
     private var _isEditing: Bool = false
+    private var _display: DisplayMode = .list
 
+    
     var current: Folder? {
         get { _folder }
-        set { _folder = newValue }
+        set{ _folder = newValue }
     }
     var id: UUID {
         get { current?.id ?? UUID() }
@@ -63,6 +65,11 @@ final class useFolder: ObservableObject {
         get {_isEditing}
         set {_isEditing = newValue}
     }
+    var display: DisplayMode {
+        get {_display}
+        set {_display = newValue}
+    }
+    
     
     /* BINDING */
     var boundName: Binding<String> {
@@ -93,6 +100,12 @@ final class useFolder: ObservableObject {
         Binding(
             get: { self._isEditing },
             set: { self._isEditing = $0 }
+        )
+    }
+    var boundDisplay: Binding<DisplayMode> {
+        Binding(
+            get: { self._display },
+            set: { self._display = $0 }
         )
     }
 }

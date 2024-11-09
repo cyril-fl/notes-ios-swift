@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct HeaderButtonList: View {
-    @EnvironmentObject var display : useDisplay
-//    @Binding var display: DisplayMode
+    @Binding var display: DisplayMode
     
     var add: () -> Void
     
@@ -23,11 +22,11 @@ struct HeaderButtonList: View {
     
     private func toggleViewMode() {
         withAnimation {
-            display.mode.toggle()
+            display.toggle()
         }
     }
     
     private var toggledIcon: String {
-        display.mode == .list ? "square.grid.2x2" : "list.bullet"
+        display == .list ? "square.grid.2x2" : "list.bullet"
     }
 }

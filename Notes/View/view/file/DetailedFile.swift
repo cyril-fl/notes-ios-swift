@@ -3,7 +3,6 @@ import SwiftUI
 struct DetailedFileView: View {
     @EnvironmentObject private var folder : useFolder
     @EnvironmentObject private var file : useFile
-    @StateObject private var display = useDisplay(preset: .grid)
     
     var body: some View {
         ZStack {
@@ -15,10 +14,9 @@ struct DetailedFileView: View {
         .navigationTitle(folder.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                HeaderButtonList(add: addFile)
+                HeaderButtonList(display: file.boundDisplay, add: addFile)
             }
         }
-        .environmentObject(display)
     }
     
     private func addFile() {

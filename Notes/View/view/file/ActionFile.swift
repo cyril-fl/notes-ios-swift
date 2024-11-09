@@ -3,7 +3,6 @@ import SwiftUI
 struct ActionFileView: View {
     @EnvironmentObject private var folder : useFolder
     @EnvironmentObject private var file : useFile
-    @EnvironmentObject private var display : useDisplay
 
     var _f: File
     
@@ -27,7 +26,7 @@ struct ActionFileView: View {
     
     private func ButtonLabel(_ label: String, _ icon: String) -> some View {
         Group {
-            switch display.mode {
+            switch file.display {
             case .list:
                 Image(systemName: icon)
             case .grid:

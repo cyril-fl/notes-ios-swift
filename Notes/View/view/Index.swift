@@ -6,9 +6,6 @@ struct Index: View {
     @StateObject private var fi_current = useFile()
     @StateObject private var alert = useAlert()
     @StateObject private var search = useSearch()
-    @StateObject private var display = useDisplayV2()
-
-
 
     var body: some View {
         NavigationView {
@@ -23,7 +20,6 @@ struct Index: View {
         .environmentObject(fo_current)
         .environmentObject(fi_current)
         .environmentObject(alert)
-        .environmentObject(display)
         .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Recherche"))
         .onChange(of: search.query, {
             print("Search: \(search.query)")

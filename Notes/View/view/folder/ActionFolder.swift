@@ -4,7 +4,6 @@ struct ActionFolderView: View {
     @Environment(\.modelContext) private var context
     @EnvironmentObject private var folder : useFolder    
     @EnvironmentObject private var alert : useAlert
-    @EnvironmentObject private var display : useDisplay
 
     var _f: Folder
 
@@ -29,7 +28,7 @@ struct ActionFolderView: View {
     
     private func ButtonLabel(_ label: String, _ icon: String) -> some View {
         Group {
-            switch display.mode {
+            switch folder.display {
             case .list:
                 Image(systemName: icon)
             case .grid:

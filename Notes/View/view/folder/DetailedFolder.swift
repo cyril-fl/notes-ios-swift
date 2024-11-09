@@ -3,7 +3,6 @@ import SwiftUI
 struct DetailedFolderView: View {
     @Environment(\.modelContext) private var context
     @EnvironmentObject private var folder : useFolder
-    @StateObject private var display = useDisplay(preset: .list)
     
     
     var body: some View {
@@ -16,10 +15,9 @@ struct DetailedFolderView: View {
         .navigationTitle("Fichiers")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                HeaderButtonList(add: addFolder)
+                HeaderButtonList(display: folder.boundDisplay ,add: addFolder)
             }
         }
-        .environmentObject(display)
     }
     
     private func addFolder() {
