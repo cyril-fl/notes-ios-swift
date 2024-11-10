@@ -18,3 +18,6 @@ protocol Action {
 protocol Colored {
     var color: Color { get }
 }
+protocol Searchable {
+    var content: String { get }
+}

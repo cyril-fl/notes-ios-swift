@@ -6,13 +6,14 @@ struct Index: View {
     @StateObject private var fi_current = useFile()
     @StateObject private var alert = useAlert()
     @StateObject private var search = useSearch()
-
+    
+    
     var body: some View {
         NavigationView {
             VStack {
-                if !search.query.isEmpty {
-                    SearchView(search.query)
-                }
+                CSearch<File>(keyPath: \File.content)
+                SearchResults<File>()
+                
                 DetailedFolderView()
             }
             .fullScreenModal(isPresented: fi_current.boundEditing) {
@@ -23,7 +24,6 @@ struct Index: View {
         .environmentObject(fo_current)
         .environmentObject(fi_current)
         .environmentObject(alert)
-        .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Recherche"))
         .alert (alert.title, isPresented: alert.boundState) {
             alert.displayAction()
         } message: {

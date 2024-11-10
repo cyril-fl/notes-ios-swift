@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-class File: Identifiable {
+class File: Identifiable, Searchable {
     #Unique<File>([\.id])
 
     // TODO la relation inverse ne se fait pas
