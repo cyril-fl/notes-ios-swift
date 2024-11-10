@@ -15,15 +15,15 @@ struct Index: View {
                 }
                 DetailedFolderView()
             }
+            .fullScreenModal(isPresented: fi_current.boundEditing) {
+                FormFileView()
+            }
             .environmentObject(search)
         }
         .environmentObject(fo_current)
         .environmentObject(fi_current)
         .environmentObject(alert)
         .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Recherche"))
-        .onChange(of: search.query, {
-            print("Search: \(search.query)")
-        })
         .alert (alert.title, isPresented: alert.boundState) {
             alert.displayAction()
         } message: {

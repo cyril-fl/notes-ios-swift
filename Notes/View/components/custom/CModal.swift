@@ -17,9 +17,10 @@ struct CModal<Content: View>: View {
     var isDraggable: Bool
     var content: () -> Content
     
+    
     @Environment(\.dismiss) var dismiss
     @GestureState private var dragOffset = CGSize.zero
-
+    
     var body: some View {
         ZStack {
             backgroundColor
@@ -28,7 +29,7 @@ struct CModal<Content: View>: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .offset(y: dragOffset.height)
                 .animation(.linear, value: dragOffset.height) // Animation fluide
-
+            
             self.content()
                 .cornerRadius(cornerRadius)
                 .offset(y: dragOffset.height) // Le contenu suit le déplacement
@@ -36,11 +37,13 @@ struct CModal<Content: View>: View {
                 .gesture(
                     isDraggable ?  DragGesture()
                         .updating($dragOffset) { value, state, _ in
+                            let _down = closeDirection == .down && value.location.y > value.startLocation.y
+                            let _up = closeDirection == .up  && value.location.y < value.startLocation.y
                             
-                            state = value.translation // Suivi du mouvement du doigt
+                            guard _down || _up else { return }
+                            state = value.translation
                         }
                         .onEnded { value in
-                            // Si le drag dépasse une certaine distance, fermer la modal
                             close(value.translation.height)
                         } : nil
                 )
@@ -61,14 +64,14 @@ struct CModalOverlay: View {
     var opacity: Double = 0.6
     
     var body: some View {
-            VStack {
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(color.opacity(opacity))
-            .edgesIgnoringSafeArea(.all)
-            .zIndex(30)
+        VStack {
+            Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(color.opacity(opacity))
+        .edgesIgnoringSafeArea(.all)
+        .zIndex(30)
+    }
 }
 
 

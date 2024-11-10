@@ -1,6 +1,9 @@
 import SwiftUI
+import SwiftData
 
 struct ActionFileView: View {
+    @Query() private var folders : [Folder]
+    @Environment(\.modelContext) private var context
     @EnvironmentObject private var folder : useFolder
     @EnvironmentObject private var file : useFile
 
@@ -45,9 +48,14 @@ struct ActionFileView: View {
     
     private func deleteFile(_ file: File) {
         withAnimation {
-            if let temp = folder.current {
-                temp.deleteFileById(fileId: file.id) // Remove from context
+            folders.forEach { folder in
+                folder.files.removeAll { $0.id == file.id }
+                context.delete(file)
             }
+            
+//            if let temp = folder.current {
+//                temp.deleteFileById(fileId: file.id) // Remove from context
+//            }
         }
     }
 }

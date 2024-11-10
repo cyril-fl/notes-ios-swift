@@ -7,11 +7,13 @@ struct FolderGridCard: View {
     private let key: UUID
     @State private var name: String
     @State private var lastUpdateDate: Date
+    private let color: Color
     
-    init(_ folder: Folder) {
+    init(_ folder: Folder, color: Color = .secondary50) {
         self.key = folder.id
         self._name = State(initialValue: folder.name)
         self._lastUpdateDate = State(initialValue: folder.lastUpdateDate)
+        self.color = color
     }
     
     var body: some View {

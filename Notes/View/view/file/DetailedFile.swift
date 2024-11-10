@@ -3,13 +3,11 @@ import SwiftUI
 struct DetailedFileView: View {
     @EnvironmentObject private var folder : useFolder
     @EnvironmentObject private var file : useFile
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
             FilesContentView()
-        }
-        .fullScreenModal(isPresented: file.boundEditing) {
-            FormFileView()
         }
         .navigationTitle(folder.name)
         .toolbar {
