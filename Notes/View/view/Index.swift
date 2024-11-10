@@ -16,6 +16,9 @@ struct Index: View {
                 
                 DetailedFolderView()
             }
+            .fullScreenModal(isPresented: fo_current.boundEditing, color: .clear, drag: false) {
+                FormFolderView()
+            }
             .fullScreenModal(isPresented: fi_current.boundEditing) {
                 FormFileView()
             }

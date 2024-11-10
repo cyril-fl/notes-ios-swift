@@ -9,9 +9,6 @@ struct DetailedFolderView: View {
         ZStack {
             FoldersContentView()
         }
-        .fullScreenModal(isPresented: folder.boundEditing, color: .clear, drag: false) {
-            FormFolderView()
-        }
         .navigationTitle("Fichiers")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
