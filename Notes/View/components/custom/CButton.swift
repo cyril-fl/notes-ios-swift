@@ -90,20 +90,3 @@ struct CButton: View {
         .cornerRadius(isRounded ? 50 : 0)
     }
 }
-
-struct ContentView: View {
-    @State private var isLoading: Bool = false
-
-    var body: some View {
-        VStack {
-            CButton("Delete", style: .primary, isLoading: $isLoading) {
-                isLoading.toggle()
-            }
-        }
-        
-    }
-}
-
-#Preview {
-    ContentView()
-}

@@ -60,3 +60,13 @@ struct Index: View {
             })
     }
 }
+
+#Preview {
+    Index()
+        .environmentObject(useFolder())
+        .environmentObject(useFile())
+        .environmentObject(useAlert())
+        .environmentObject(useSearch())
+        .environmentObject(useModal())
+        .modelContainer(for: Folder.self)
+}

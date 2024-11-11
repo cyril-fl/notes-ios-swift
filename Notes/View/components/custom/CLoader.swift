@@ -9,7 +9,6 @@ struct CLoader: View {
     
     @State private var rotate: Double = 0
 
-    // Initialisation des paramètres
     init(
         _ icon: String = "circle.dotted",
         speed: Double = 0.4,
@@ -66,25 +65,4 @@ struct CLoader: View {
             angle: .degrees(360)
         )
     }
-}
-
-struct AnimationTest: View {
-    @State private var isLoading: Bool = false
-    
-    var body: some View {
-        Button("Animate") {
-            isLoading.toggle()
-        }
-        
-        VStack {
-            CLoader(isAnimated: $isLoading)
-                .frame(width: 50, height: 50)
-        }
-        .padding(10)
-        .background(.secondary600)
-    }
-}
-
-#Preview {
-    AnimationTest()
 }

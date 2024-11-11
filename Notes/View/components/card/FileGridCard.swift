@@ -13,7 +13,7 @@ struct FileGridCard: View {
     @State private var name: String
     @State private var content: String
     @State private var lastUpdateDate: Date
-    @State private var isLoaded: Bool = false
+//    @State private var isLoaded: Bool = false
     private let color: Color
     private let display: FileGridCardDisplay
     
@@ -44,11 +44,11 @@ struct FileGridCard: View {
                 SearchThumbnail
             }
         }
+        // TODO, si aucun bug au chargement de la page, supprimer les ref à isloaded
         .onChange(of: file.current) {
-            guard file.current !== nil else { return }
-            guard !isLoaded else { return }
+            guard file.id == key/*, !isLoaded*/ else { return }
             name = file.name.isEmpty ? defaultName : file.name
-            isLoaded = true
+//            isLoaded = true
         }
         .onChange(of: file.editing) {
             if !file.editing {

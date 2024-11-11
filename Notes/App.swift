@@ -17,6 +17,7 @@ struct NotesApp: App {
 
 
 
+
 //@main
 struct AppDeleteAll: App {
     var body: some Scene {
