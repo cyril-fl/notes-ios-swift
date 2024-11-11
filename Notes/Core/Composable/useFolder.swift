@@ -25,7 +25,7 @@ final class useFolder: ObservableObject {
             current?.name ?? "undefined"
         }
         set {
-            current?.name = useValidate.text(newValue) ?? ""
+            current?.name = useValidate.text(newValue, length: 120) ?? ""
         }
     }
     var path: String {
@@ -49,7 +49,7 @@ final class useFolder: ObservableObject {
     }
     var lastModified: Date {
         get { current?.lastUpdateDate ?? Date() }
-        set {  }
+        set { current?.lastUpdateDate = newValue }
     }
     var delete: Bool {
         get {_deleteOnCancel}

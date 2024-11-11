@@ -7,13 +7,13 @@ struct FolderListCard: View {
     private let key: UUID
     @State private var name: String
     private var count: Int
-    @State private var lastUpdateDate: Date
+//    @State private var lastUpdateDate: Date
     
     init(_ folder: Folder) {
         self.key = folder.id
         self._name = State(initialValue: folder.name)
         self.count = folder.files.count
-        self._lastUpdateDate = State(initialValue: folder.lastUpdateDate)
+//        self._lastUpdateDate = State(initialValue: )
     }
     
     var body: some View {
@@ -24,7 +24,7 @@ struct FolderListCard: View {
             Text(name)
                 .foregroundStyle(.secondary900)
                 .font(.headline)
-            Text("\(lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
+            Text("\(folder.lastModified.formatted(date: .abbreviated, time: .shortened))")
         }
         .foregroundStyle(.secondary500)
         .onAppear {
@@ -35,11 +35,11 @@ struct FolderListCard: View {
                 updateView()
             }
         }
+    
     }
     
     private func updateView() {
         guard folder.id == key else { return }
         name = folder.name
-        lastUpdateDate = folder.lastModified
     }
 }

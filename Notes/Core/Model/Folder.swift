@@ -56,5 +56,6 @@ final class Folder {
         files.removeAll { file in
             file.id == fileId
         }
+        lastUpdateDate = Date()
     }
 }

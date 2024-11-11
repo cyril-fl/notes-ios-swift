@@ -22,7 +22,7 @@ final class useFile: ObservableObject {
             current?.name ?? "undefined"
         }
         set {
-            current?.name = useValidate.text(newValue) ?? ""
+            current?.name = useValidate.text(newValue, length: 120) ?? ""
         }
     }
     var content: String {
@@ -35,8 +35,9 @@ final class useFile: ObservableObject {
     }
     var lastModified: Date {
         get { current?.lastUpdateDate ?? Date() }
-        set {  }
+        set { }
     }
+    
     var delete: Bool {
         get {_deleteOnCancel}
         set {}

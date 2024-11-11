@@ -1,9 +1,11 @@
 import SwiftUI
 import SwiftData
 
-struct SearchResults<T: PersistentModel & Identifiable & Searchable>: View {
+struct SearchResults: View {
     @EnvironmentObject private var file: useFile
     @EnvironmentObject private var search: useSearch
+    @EnvironmentObject private var modal: useModal
+
     @State private var results: [File] = []
     private var layout = [GridItem(.flexible())]
 
@@ -12,6 +14,7 @@ struct SearchResults<T: PersistentModel & Identifiable & Searchable>: View {
             VStack {
                 Content
             }
+            
             .frame(maxHeight: 100)
             .transition(.move(edge: .top))
             .animation(.easeOut(duration: 0.2), value: results.isEmpty)
@@ -20,11 +23,11 @@ struct SearchResults<T: PersistentModel & Identifiable & Searchable>: View {
                     results = search.query.isEmpty ? [] : search.results.compactMap { $0 as? File }
                 }
             }
-
+            .onAppear() {
+                modal.current = .SearchModal
+            }
         }
     }
-    
-    
     var NoResultView: some View {
         UnavailableCard(title: "Notes", message: "Aucune note trouvée", icon: "document")
             .frame(maxHeight: .infinity)

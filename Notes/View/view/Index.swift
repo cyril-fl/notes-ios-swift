@@ -6,39 +6,57 @@ struct Index: View {
     @StateObject private var fi_current = useFile()
     @StateObject private var alert = useAlert()
     @StateObject private var search = useSearch()
-    
-    
+    @StateObject private var modal = useModal()
+
+    @State var presentSearchBar: Bool = false
+
     var body: some View {
         NavigationView {
             VStack {
-                CSearch<File>(keyPath: \File.content)
-                SearchResults<File>()
-                
+                CSearch<File>(keyPath: \File.content, isPresented: $presentSearchBar)
+                SearchResults()
                 DetailedFolderView()
             }
-            .fullScreenModal(isPresented: fo_current.boundEditing, color: .clear, drag: false) {
-                FormFolderView()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    toggleSearchButton
+                }
             }
-            .fullScreenModal(isPresented: fi_current.boundEditing) {
-                FormFileView()
-            }
-            .environmentObject(search)
+        }
+        .fullScreenModal(isPresented: isFileFormModalPresented) {
+            FormFileView()
+        }
+        .fullScreenModal(isPresented: fo_current.boundEditing, color: .clear, drag: false) {
+            FormFolderView()
         }
         .environmentObject(fo_current)
         .environmentObject(fi_current)
         .environmentObject(alert)
-        .alert (alert.title, isPresented: alert.boundState) {
+        .environmentObject(search)
+        .environmentObject(modal)
+        .alert(alert.title, isPresented: alert.boundState) {
             alert.displayAction()
         } message: {
             alert.display()
         }
     }
-}
 
-#Preview {
-    Index()
-        .environmentObject(useFolder())
-        .environmentObject(useFile())
-        .environmentObject(useAlert())
-        .modelContainer(for: Folder.self)
+    var toggleSearchButton: some View {
+        Group {
+            if !presentSearchBar {
+                CButton("", icon: "magnifyingglass", style: .accent, size: .xs) {
+                    presentSearchBar.toggle()
+                }
+                .animation(.easeInOut, value: presentSearchBar)
+            }
+        }
+    }
+    
+    var isFileFormModalPresented: Binding<Bool> {
+        Binding(
+            get: { fi_current.boundEditing.wrappedValue && modal.current == .SearchModal },
+            set: { newValue in
+                fi_current.boundEditing.wrappedValue = newValue
+            })
+    }
 }

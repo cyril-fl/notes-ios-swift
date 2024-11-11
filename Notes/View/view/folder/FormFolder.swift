@@ -36,8 +36,10 @@ struct FormFolderView: View {
             _placeholder = folder.name.isEmpty ? defaultName : folder.name
             isFocus = true
         }
-        .onChange(of: _name) { old, new in
-            folder.name = new
+        .onChange(of: _name, initial: false) { old, new in
+            if !new.isEmpty && new != old && new != folder.name {
+                folder.name = new
+            }
         }
     }
     
@@ -54,7 +56,6 @@ struct FormFolderView: View {
             StyledButtonInterface("Enregistrer", style: .primary,  action: handleSubmit)
          ]
      }
-    
     
     private func handleSubmit() {
         dismiss()

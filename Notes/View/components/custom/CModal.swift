@@ -80,7 +80,7 @@ extension View {
         isPresented: Binding<Bool>,
         isOverlayPresented: Bool = true,
         rounded: CGFloat = 25,
-        color: Color = Color(.secondary100),
+        color: Color = Color(.white),
         direction: ModalDirection = .down,
         @ViewBuilder overlay: @escaping () -> OverlayContent = { CModalOverlay() },
         drag: Bool = true,

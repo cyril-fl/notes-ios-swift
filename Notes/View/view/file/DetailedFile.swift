@@ -4,6 +4,7 @@ struct DetailedFileView: View {
     @EnvironmentObject private var folder : useFolder
     @EnvironmentObject private var file : useFile
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject private var modal : useModal
     
     var body: some View {
         ZStack {
@@ -14,6 +15,12 @@ struct DetailedFileView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HeaderButtonList(display: file.boundDisplay, add: addFile)
             }
+        }
+        .onAppear {
+            modal.current = .EditModal
+        }
+        .fullScreenModal(isPresented: file.boundEditing) {
+            FormFileView()
         }
     }
     

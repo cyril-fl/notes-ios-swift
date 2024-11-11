@@ -4,7 +4,6 @@ struct DetailedFolderView: View {
     @Environment(\.modelContext) private var context
     @EnvironmentObject private var folder : useFolder
     
-    
     var body: some View {
         ZStack {
             FoldersContentView()

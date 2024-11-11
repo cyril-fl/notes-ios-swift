@@ -11,19 +11,19 @@ struct SearchFieldUi: ViewModifier {
     var disableColor: Color = .secondary200
     var reset: Bool
     @Binding var query: String
-
+    
     init(_ bgColor: Color, query: Binding<String>, reset: Bool) {
         self.bgColor = bgColor
         self._query = query
         self.reset = reset
     }
-
+    
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 10) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(accentColor)
             content
-
+            
             if reset {
                 Button {
                     query = ""
@@ -41,10 +41,12 @@ struct SearchFieldUi: ViewModifier {
 
 struct SearchFormUI: FormStyle {
     func makeBody(configuration: Configuration) -> some View {
-        configuration.content
-            .padding(.top, 1)
-            .padding(.horizontal, 15)
-            .padding(.bottom, 10)
+        HStack {
+            configuration.content
+        }
+        .padding(.top, 1)
+        .padding(.horizontal, 15)
+        .padding(.bottom, 10)
     }
 }
 

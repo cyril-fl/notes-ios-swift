@@ -52,10 +52,6 @@ struct ActionFileView: View {
                 folder.files.removeAll { $0.id == file.id }
                 context.delete(file)
             }
-            
-//            if let temp = folder.current {
-//                temp.deleteFileById(fileId: file.id) // Remove from context
-//            }
         }
     }
 }
