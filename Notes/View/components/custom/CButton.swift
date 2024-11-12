@@ -1,9 +1,13 @@
 import SwiftUI
 
-enum CBButtonSize{
+enum CButtonSize{
+    /// width : 40 |  height : 40 | max width :  40
     case xs
+    /// width : 200 | height : 45 |  max width: .infinity
     case base
+    /// width : 100 | height : 50 |  max width: 150
     case md
+    /// width : 150 | height : 60 |  max width: 200
     case lg
 }
 
@@ -11,7 +15,7 @@ struct CButton: View {
     let name: String
     let icon: String
     let style: ButtonType
-    let size: CBButtonSize
+    let size: CButtonSize
     var isRounded: Bool
     @Binding var isLoading: Bool
     var isDisabled: Bool
@@ -20,7 +24,7 @@ struct CButton: View {
     init(_ name: String = "",
          icon: String = "",
          style: ButtonType = .primary,
-         size: CBButtonSize = .base,
+         size: CButtonSize = .base,
          isRounded: Bool = false,
          isLoading: Binding<Bool> = .constant(false),
          isDisabled: Bool = false,

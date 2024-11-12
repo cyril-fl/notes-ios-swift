@@ -2,18 +2,21 @@ import SwiftUI
 
 struct DetailedFolderView: View {
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var folder : useFolder
-    
+    @Environment(useFolder.self) private var folder
+
     var body: some View {
         ZStack {
+            
             FoldersContentView()
         }
-        .navigationTitle("Fichiers")
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 HeaderButtonList(display: folder.boundDisplay ,add: addFolder)
             }
         }
+        .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+//        .toolbarBackgroundVisibility(.hidden)
+
     }
     
     private func addFolder() {

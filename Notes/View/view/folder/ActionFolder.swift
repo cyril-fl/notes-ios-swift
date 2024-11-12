@@ -2,8 +2,8 @@ import SwiftUI
 
 struct ActionFolderView: View {
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var folder : useFolder    
-    @EnvironmentObject private var alert : useAlert
+    @Environment(useFolder.self) private var folder
+    @Environment(useAlert.self) private var alert
 
     var _f: Folder
 

@@ -6,7 +6,7 @@ struct NotesApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                Index()
+                ContentView()
                     .modelContainer(for: Folder.self)
             }
         }

@@ -3,9 +3,9 @@ import SwiftUI
 struct FormFileView: View {
     @Environment(\.defaultFileName) private var defaultName
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var folder : useFolder
-    @EnvironmentObject private var file : useFile
-    
+    @Environment(useFolder.self) private var folder
+    @Environment(useFile.self) private var file
+
     @State private var _name: String = ""
     @State private var _content: String = ""
     @State private var _placeholder: String = ""

@@ -4,36 +4,35 @@ struct FormFolderView: View {
     @Environment(\.defaultFolderName) private var defaultName
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var folder : useFolder
-    
+    @Environment(useFolder.self) private var folder
+
     @State private var _name: String = ""
-    @State private var _placeholder: String = ""
+    @State private var _previous: String = ""
     @FocusState private var isFocus: Bool
     
     var body: some View {
         Form {
             FormLabel
             
-            TextField(_placeholder, text: $_name)
-                .padding(.vertical, 4)
-                .padding(.horizontal, 7)
+            TextField(_previous, text: $_name)
+                .padding(.vertical, .sm)
+                .padding(.horizontal, .md)
                 .background(.secondary100)
                 .foregroundStyle(.secondary600)
-                .cornerRadius(10)
+                .cornerRadius(.md)
                 .focused($isFocus)
-                .tint(.primary500)
+                .tint(.primary700)
                             
-            HStack {
+            HStack(spacing: .sm) {
                 ForEach(actionListItems, id: \.name) { action in
                     CButton(action.name, style: action.style, action: action.action)
-                    .padding(.top, 10)
                 }
             }
         }
         .formStyle(.popup)
         .onAppear() {
             _name = folder.name.isEmpty ? defaultName : folder.name
-            _placeholder = folder.name.isEmpty ? defaultName : folder.name
+            _previous = folder.name.isEmpty ? defaultName : folder.name
             isFocus = true
         }
         .onChange(of: _name, initial: false) { old, new in
@@ -45,9 +44,9 @@ struct FormFolderView: View {
     
     private var FormLabel: some View {
         Text("Renommer le dossier")
-            .font(.title3)
-            .fontWeight(.bold)
-            .foregroundStyle(.secondary900)
+            .fontSize(.xl, weight: .semibold)
+            .foregroundStyle(.primary950)
+            .padding(.bottom, .xs)
     }
     
     private var actionListItems: [StyledButtonInterface] {
@@ -58,6 +57,9 @@ struct FormFolderView: View {
      }
     
     private func handleSubmit() {
+        if folder.name != _previous {
+            folder.lastModified = Date()
+        }
         dismiss()
     }
 
@@ -66,7 +68,24 @@ struct FormFolderView: View {
             if folder.delete, let folder = folder.current {
                 context.delete(folder)
             }
+            folder.name = _previous
             dismiss()
         }
+    }
+}
+
+#Preview {
+    ZStack {
+        CModalOverlay()
+            
+        FormFolderView()
+            .zIndex(40)
+            .environment(\.defaultFolderName, "Nouveau dossier")
+            .environment(useFolder())
+            .environment(useFile())
+            .environment(useAlert())
+            .environment(useSearch())
+            .environment(useModal())
+            .modelContainer(for: Folder.self)
     }
 }

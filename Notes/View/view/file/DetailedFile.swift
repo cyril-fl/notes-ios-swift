@@ -1,21 +1,28 @@
 import SwiftUI
 
 struct DetailedFileView: View {
-    @EnvironmentObject private var folder : useFolder
-    @EnvironmentObject private var file : useFile
+    @Environment(useFolder.self) private var folder
+    @Environment(useFile.self) private var file
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject private var modal : useModal
-    
+    @Environment(useModal.self) private var modal
+
     var body: some View {
         ZStack {
             FilesContentView()
         }
         .navigationTitle(folder.name)
+        
+        //TODO clean toolbar systeme
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HeaderButtonList(display: file.boundDisplay, add: addFile)
             }
         }
+        .toolbarTitleDisplayMode(.inline)
+        
+        .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+//        .toolbarBackgroundVisibility(.hidden)
+
         .onAppear {
             modal.current = .EditModal
         }

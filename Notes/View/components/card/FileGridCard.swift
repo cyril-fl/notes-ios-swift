@@ -1,35 +1,34 @@
 import SwiftUI
 
-enum FileGridCardDisplay {
+enum FileGridCardVariant {
     case base
     case search
 }
 
 struct FileGridCard: View {
     @Environment(\.defaultFileName) private var defaultName
-    @EnvironmentObject private var file : useFile
+    @Environment(useFile.self) private var file
     
     private let key: UUID
     @State private var name: String
     @State private var content: String
     @State private var lastUpdateDate: Date
-//    @State private var isLoaded: Bool = false
     private let color: Color
-    private let display: FileGridCardDisplay
+    private let variant: FileGridCardVariant
     
     
-    init(_ file: File, color: Color = .secondary50, display: FileGridCardDisplay = .base) {
+    init(_ file: File, color: Color = .secondary50, variant: FileGridCardVariant = .base) {
         self.key = file.id
         self._name = State(initialValue: file.name.isEmpty ? "Nouvelle note" : file.name)
         self._content = State(initialValue: file.content)
         self._lastUpdateDate = State(initialValue: file.lastUpdateDate)
         self.color = color
-        self.display = display
+        self.variant = variant
     }
     
     var body: some View {
         VStack{
-            switch display {
+            switch variant {
             case .base:
                 Group {
                     BaseThumbnail
@@ -39,21 +38,17 @@ struct FileGridCard: View {
                 // TODO : Supprimer  quand j'aurais gerer l'élément de survol.
                 .background(Color(.systemBackground))
                 
-                
             case .search:
                 SearchThumbnail
             }
         }
-        // TODO, si aucun bug au chargement de la page, supprimer les ref à isloaded
         .onChange(of: file.current) {
-            guard file.id == key/*, !isLoaded*/ else { return }
+            guard file.id == key else { return }
             name = file.name.isEmpty ? defaultName : file.name
-//            isLoaded = true
         }
         .onChange(of: file.editing) {
-            if !file.editing {
-                updateView()
-            }
+            guard !file.editing else { return }
+            updateView()
         }
     }
     

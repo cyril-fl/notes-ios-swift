@@ -15,13 +15,14 @@ struct ResetFormUI: FormStyle {
 struct PopUpFormUI: FormStyle {
 
     func makeBody(configuration: Configuration) -> some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: .sm) {
             configuration.content
         }
-        .padding(25)
-        .background(Color(.systemGroupedBackground))
-        .cornerRadius(10)
-        .padding(.horizontal, 45)
+        .padding(.vertical, .xl)
+        .padding(.horizontal, .xl)
+        .background(.secondary50.opacity(0.9))
+        .cornerRadius(.xl)
+        .padding(.horizontal, .xl5)
     }
 }
 

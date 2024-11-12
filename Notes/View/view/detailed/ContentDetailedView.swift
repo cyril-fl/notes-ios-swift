@@ -2,8 +2,8 @@ import SwiftUI
 import SwiftData
 
 struct FoldersContentView: View {
-    @EnvironmentObject private var folder : useFolder
-    
+    @Environment(useFolder.self) private var folder
+
     @Query(sort: \Folder.lastUpdateDate, order: .reverse, animation: .easeIn)
     private var folders: [Folder]
 
@@ -29,7 +29,7 @@ struct FoldersContentView: View {
 struct FilesContentView: View {
     @Environment(useFolder.self) private var folder
     @Environment(useFile.self) private var file
-    
+
     var body: some View {
         if folder.files.isEmpty {
             UnavailableCard(title: "Notes", message: "Aucune note trouvé", icon: "document")

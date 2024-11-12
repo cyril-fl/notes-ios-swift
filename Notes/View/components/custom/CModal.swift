@@ -4,7 +4,6 @@ import UIKit
 //TODO
 // Reussi a se debarasser de FULLSCREENCOVER, pour gerer la transition seul, et mettre un sens pour le swipe.
 
-
 enum ModalDirection {
     case up
     case down
@@ -60,7 +59,7 @@ struct CModal<Content: View>: View {
 }
 
 struct CModalOverlay: View {
-    var color: Color = .gray
+    var color: Color = .overlay
     var opacity: Double = 0.6
     
     var body: some View {
@@ -72,6 +71,7 @@ struct CModalOverlay: View {
         .edgesIgnoringSafeArea(.all)
         .zIndex(30)
     }
+
 }
 
 
@@ -80,7 +80,7 @@ extension View {
         isPresented: Binding<Bool>,
         isOverlayPresented: Bool = true,
         rounded: CGFloat = 25,
-        color: Color = Color(.white),
+        color: Color = Color(.systemBackground),
         direction: ModalDirection = .down,
         @ViewBuilder overlay: @escaping () -> OverlayContent = { CModalOverlay() },
         drag: Bool = true,

@@ -2,8 +2,8 @@ import SwiftUI
 import SwiftData
 
 struct CSearch<T: PersistentModel & Identifiable & Searchable>: View {
-    @EnvironmentObject private var file: useFile
-    @EnvironmentObject private var search: useSearch
+    @Environment(useFile.self) private var file
+    @Environment(useSearch.self) private var search
     
     var prompt: String
     var keyPath: KeyPath<T, String>
@@ -29,7 +29,7 @@ struct CSearch<T: PersistentModel & Identifiable & Searchable>: View {
     var body: some View {
         Group {
             if isAlwaysPresented || isPresented {
-                HStack(alignment: .center, spacing: 10) {
+                HStack(alignment: .center) {
                     SearchBar
                 }
                 .transition(.opacity.combined(with: .move(edge: .top)))
@@ -56,17 +56,15 @@ struct CSearch<T: PersistentModel & Identifiable & Searchable>: View {
     }
     
     var SearchBar: some View {
-        VStack {
-            Form {
-                TextField(prompt, text: search.boundQuery)
-                    .inputStyle(.search, reset: isResetable, search.boundQuery)
-                
-                if !isAlwaysPresented {
-                    CancelButton
-                }
+        Form {
+            TextField(prompt, text: search.boundQuery)
+                .inputStyle(.search, reset: isResetable, search.boundQuery)                
+            
+            if !isAlwaysPresented {
+                CancelButton
             }
-            .formStyle(.search)
         }
+        .formStyle(.search)
         .onChange(of: search.query) {
             search.filterResults(from: items, usingKey: keyPath)
         }

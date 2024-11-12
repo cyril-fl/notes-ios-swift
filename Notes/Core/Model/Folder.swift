@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Folder {
+final class Folder: Identifiable {
     #Unique<Folder>([\.id])
     
     private(set) var id: UUID
@@ -14,7 +14,6 @@ final class Folder {
         get { _name }
         set {
             _name = newValue;
-            lastUpdateDate = Date();
         }
     }
     var path: String {

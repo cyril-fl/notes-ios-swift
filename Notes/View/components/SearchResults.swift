@@ -2,9 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct SearchResults: View {
-    @EnvironmentObject private var file: useFile
-    @EnvironmentObject private var search: useSearch
-    @EnvironmentObject private var modal: useModal
+    @Environment(useFile.self) private var file
+    @Environment(useSearch.self) private var search
+    @Environment(useModal.self) private var modal
 
     @State private var results: [File] = []
     private var layout = [GridItem(.flexible())]
@@ -38,7 +38,7 @@ struct SearchResults: View {
         ScrollView(.horizontal) {
             LazyHGrid(rows: layout, spacing: 10) {
                 ForEach(results) { _file in
-                    FileGridCard(_file, color: Color(.systemBackground), display: .search)
+                    FileGridCard(_file, color: Color(.systemBackground), variant: .search)
                         .onTapGesture {
                             file.current = _file
                             file.editing.toggle()

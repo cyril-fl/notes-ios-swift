@@ -41,12 +41,11 @@ struct SearchFieldUi: ViewModifier {
 
 struct SearchFormUI: FormStyle {
     func makeBody(configuration: Configuration) -> some View {
-        HStack {
+        HStack(spacing: .sm) {
             configuration.content
         }
-        .padding(.top, 1)
-        .padding(.horizontal, 15)
-        .padding(.bottom, 10)
+        .padding(.bottom, .sm)
+        .padding(.horizontal, .lg)
     }
 }
 

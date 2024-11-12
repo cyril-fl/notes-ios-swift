@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FileListCard: View {
     @Environment(\.defaultFileName) private var defaultName
-    @EnvironmentObject private var file : useFile
+    @Environment(useFile.self) private var file
 
     private let key: UUID
     @State private var name: String

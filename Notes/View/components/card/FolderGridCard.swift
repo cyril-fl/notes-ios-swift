@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FolderGridCard: View {
     @Environment(\.defaultFolderName) private var defaultName
-    @EnvironmentObject private var folder: useFolder
+    @Environment(useFolder.self) private var folder
         
     private let key: UUID
     @State private var name: String

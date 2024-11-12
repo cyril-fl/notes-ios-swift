@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct GridFileView: View {
-    @EnvironmentObject private var folder : useFolder
-    @EnvironmentObject private var file : useFile
-    
+    @Environment(useFolder.self) private var folder
+    @Environment(useFile.self) private var file
+
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 20) {

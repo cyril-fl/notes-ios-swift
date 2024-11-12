@@ -4,8 +4,8 @@ import SwiftData
 struct ActionFileView: View {
     @Query() private var folders : [Folder]
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var folder : useFolder
-    @EnvironmentObject private var file : useFile
+    @Environment(useFolder.self) private var folder
+    @Environment(useFile.self) private var file
 
     var _f: File
     
