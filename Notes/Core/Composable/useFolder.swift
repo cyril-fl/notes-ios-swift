@@ -8,7 +8,9 @@ import Observation
 final class useFolder: ObservableObject {
     private var _folder: Folder?
     private var _deleteOnCancel: Bool  = false
-    private var _isEditing: Bool = false
+    
+    var editing: Bool = false
+    
     private var _display: DisplayMode = .list
 
     
@@ -61,10 +63,10 @@ final class useFolder: ObservableObject {
     func keepOnCancel() {
         _deleteOnCancel = false
     }
-    var editing: Bool {
-        get {_isEditing}
-        set {_isEditing = newValue}
-    }
+//    var editing: Bool {
+//        get {_isEditing}
+//        set {_isEditing = newValue}
+//    }
     var display: DisplayMode {
         get {_display}
         set {_display = newValue}
@@ -98,8 +100,8 @@ final class useFolder: ObservableObject {
     }
     var boundEditing: Binding<Bool> {
         Binding(
-            get: { self._isEditing },
-            set: { self._isEditing = $0 }
+            get: { self.editing },
+            set: { self.editing = $0 }
         )
     }
     var boundDisplay: Binding<DisplayMode> {

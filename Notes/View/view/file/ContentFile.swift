@@ -1,14 +1,28 @@
 import SwiftUI
 
-struct DetailedFileView: View {
+struct ContentFileView: View {
     @Environment(useFolder.self) private var folder
     @Environment(useFile.self) private var file
     @Environment(\.presentationMode) var presentationMode
     @Environment(useModal.self) private var modal
 
     var body: some View {
-        ZStack {
-            FilesContentView()
+        Group {
+            if folder.files.isEmpty {
+                UnavailableCard(title: "Notes", message: "Aucune note trouvé", icon: "document")
+            } else {
+                Group {
+                    switch file.display {
+                    case .list:
+                        ListFileView()
+                            .transition(.move(edge: .leading).combined(with: .opacity))
+                    case .grid:
+                        GridFileView()
+                            .transition(.move(edge: .trailing).combined(with: .opacity))
+                    }
+                }
+                .animation(.easeInOut, value: file.display)
+            }
         }
         .navigationTitle(folder.name)
         

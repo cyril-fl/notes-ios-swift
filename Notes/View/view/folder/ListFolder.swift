@@ -35,7 +35,7 @@ import SwiftUI
 
 struct ListFolderView: View {
     @Environment(useFolder.self) private var folder
-    @Environment(useSearch.self) private var search
+//    @Environment(useSearch.self) private var search
     var folders: [Folder]
     
     @State var presentSearchBar: Bool = false
@@ -45,7 +45,7 @@ struct ListFolderView: View {
         List {
             Section(header: Header) {
                 ForEach(folders, id: \.id) { _folder in
-                    NavigationLink(destination: DetailedFileView()
+                    NavigationLink(destination: ContentFileView()
                         .onAppear {
                             folder.current = _folder
                         }
@@ -71,8 +71,8 @@ struct ListFolderView: View {
             HStack {
                 Text("Dossiers")
                     .font(.h1)
-                Spacer()
-                toggleSearchButton
+//                Spacer()
+//                toggleSearchButton
             }
         }
         .padding(.horizontal)
@@ -80,14 +80,16 @@ struct ListFolderView: View {
         .listRowInsets(EdgeInsets())
     }
     
+/*
     var toggleSearchButton: some View {
         Group {
             if !presentSearchBar {
                 CButton("", icon: "magnifyingglass", style: .accent, size: .xs) {
-                    search._isPresented.toggle()
+                    search.present.toggle()
                 }
                 .animation(.easeInOut, value: presentSearchBar)
             }
         }
     }
+*/
 }

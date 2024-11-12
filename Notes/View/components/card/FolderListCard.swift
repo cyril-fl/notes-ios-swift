@@ -2,44 +2,31 @@ import SwiftUI
 
 struct FolderListCard: View {
     @Environment(\.defaultFolderName) private var defaultName
-    @Environment(useFolder.self) private var folder
-    // TODO remplacer     @Environment(useFolder.self) private var folder par ce qui est prescrit dans la doc ave @bindable
+    @Environment(useFolder.self) private var currentFolder
     
-    
-    private let key: UUID
-    @State private var name: String
-    private var count: Int
+    @Bindable var folder: Folder
+    @State var label: String
     
     init(_ folder: Folder) {
-        self.key = folder.id
-        self._name = State(initialValue: folder.name)
-        self.count = folder.files.count
+        _folder = .init(folder)
+        _label = State(initialValue: folder.name)
     }
     
     var body: some View {
         LabeledContent {
-            Text(String(count))
+            Text(String(folder.files.count))
                 .fontSize(.sm, weight: .semibold)
         } label: {
-            Text(name)
+            Text(label)
                 .font(.h3)
-            Text("\(folder.lastModified.formatted(date: .abbreviated, time: .shortened))")
+            Text("\(folder.lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
                 .font(.caption, color: .primary600)
         }
         .foregroundStyle(.secondary300)
-        .onAppear {
-            name = name.isEmpty ? defaultName : name
-        }
-        .onChange(of: folder.editing, initial: false) {
-            if !folder.editing {
-                updateView()
+        .onChange(of: currentFolder.editing, initial: false) {
+            if !currentFolder.editing {
+                label = folder.name
             }
         }
-    
-    }
-    
-    private func updateView() {
-        guard folder.id == key else { return }
-        name = folder.name
     }
 }

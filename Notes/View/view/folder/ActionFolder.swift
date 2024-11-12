@@ -59,7 +59,7 @@ struct ActionFolderView: View {
             
             alert.title = "Suppression du dossier"
             alert.message = "Votre dossier contient des notes. Le supprimer entraînera la suppression de tout son contenu. Voulez-vous continuer ?"
-            alert.isPresented.toggle()
+            alert.state.toggle()
             alert.actions = [
                 RoleButtonInterface("Annuler", role: .cancel, action: {}),
                 RoleButtonInterface("Supprimer", role: .destructive, action: {
