@@ -1,8 +1,9 @@
 import SwiftUI
 
+// TODO : Refactor comme FolderistCard
 struct FileListCard: View {
     @Environment(\.defaultFileName) private var defaultName
-    @Environment(useFile.self) private var file
+    @Environment(useFile.self) private var currentFile
 
     private let key: UUID
     @State private var name: String
@@ -34,24 +35,24 @@ struct FileListCard: View {
         }
         .contentShape(Rectangle())
         .frame(maxWidth: .infinity)
-        .onChange(of: file.current) {
-            guard file.current !== nil else { return }
+        .onChange(of: currentFile.current) {
+            
             guard !isLoaded else { return }
-            name = file.name.isEmpty ? defaultName : file.name
+            name = currentFile.name.isEmpty ? defaultName : currentFile.name
             isLoaded = true
         }
-        .onChange(of: file.editing, initial: false) {
-            if !file.editing {
+        .onChange(of: currentFile.editing, initial: false) {
+            if !currentFile.editing {
                 updateView()
             }
         }
     }
     
     private func updateView() {
-        guard file.id == key else { return }
-            name = file.name
-            content = file.content
-            lastUpdateDate = file.lastModified
+        guard currentFile.id == key else { return }
+            name = currentFile.name
+            content = currentFile.content
+            lastUpdateDate = currentFile.lastUpdateDate
     }
     
     var Name: some View {

@@ -1,8 +1,9 @@
 import SwiftUI
 import SwiftData
 
+// TODO : Refactor avec @Bindable si possible
 struct CSearch<T: PersistentModel & Identifiable & Searchable>: View {
-    @Environment(useFile.self) private var file
+    @Environment(useFile.self) private var currentFile
     @Environment(useSearch.self) private var search
     
     var prompt: String
@@ -29,10 +30,8 @@ struct CSearch<T: PersistentModel & Identifiable & Searchable>: View {
     var body: some View {
         Group {
             if isAlwaysPresented || isPresented {
-                HStack(alignment: .center) {
-                    SearchBar
-                }
-                .transition(.opacity.combined(with: .move(edge: .top)))
+                SearchBar
+                    .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
         .animation(.easeInOut, value: isPresented)
@@ -58,7 +57,7 @@ struct CSearch<T: PersistentModel & Identifiable & Searchable>: View {
     var SearchBar: some View {
         Form {
             TextField(prompt, text: search.boundQuery)
-                .inputStyle(.search, reset: isResetable, search.boundQuery)                
+                .inputStyle(.search, reset: isResetable, search.boundQuery)
             
             if !isAlwaysPresented {
                 CancelButton

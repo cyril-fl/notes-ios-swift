@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable
-class useSearch: ObservableObject {
+class useSearch {
     var query: String = ""
     var results: [Any] = []
     var present: Bool = false
@@ -27,9 +27,4 @@ class useSearch: ObservableObject {
     
         results = _i as [Any]
     }
-    
-    var boundIsPresented: Binding<Bool> {
-        return .init(get: { self.present }, set: { self.present = $0 })
-    }
-    
 }

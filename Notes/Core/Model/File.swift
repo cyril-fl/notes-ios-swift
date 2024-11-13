@@ -1,11 +1,12 @@
 import Foundation
 import SwiftData
 
+
+// TODO Supprimer Searchable
 @Model
-class File: Identifiable, Searchable {
+class File: Identifiable, ContentNode, Searchable {
     #Unique<File>([\.id])
 
-    // TODO la relation inverse ne se fait pas
     private(set) final var id: UUID
     var name: String {
         didSet { lastUpdateDate = Date() }

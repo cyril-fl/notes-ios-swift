@@ -1,8 +1,9 @@
 import SwiftUI
 
+// TODOO Refactor !
 struct ActionFolderView: View {
     @Environment(\.modelContext) private var context
-    @Environment(useFolder.self) private var folder
+    @Environment(useFolder.self) private var currentFolder
     @Environment(useAlert.self) private var alert
 
     var _f: Folder
@@ -20,32 +21,22 @@ struct ActionFolderView: View {
     
     private func SwipeButton(label: String, icon: String, color: Color, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            ButtonLabel(label, icon)
-                .foregroundStyle(.secondary50)
+            Label(label, systemImage: icon)
+                .foregroundStyle(.secondary200)
         }
-        .tint(color)
+        
     }
     
-    private func ButtonLabel(_ label: String, _ icon: String) -> some View {
-        Group {
-            switch folder.display {
-            case .list:
-                Image(systemName: icon)
-            case .grid:
-                Label(label, systemImage: icon)
-            }
-        }
-    }
     
     private func listedAction(_ _folder: Folder) -> [SwipeButtonInterface] {
         return [
-            SwipeButtonInterface("Delete", icon: "trash", color: .destructive) {
+            SwipeButtonInterface("Delete", icon: "trash", color: .primary600) {
                 delete(_folder)
             },
-            SwipeButtonInterface("Edit", icon: "pencil", color: .primary300) {
-                folder.keepOnCancel()
-                folder.current = _folder
-                folder.editing.toggle()
+            SwipeButtonInterface("Edit", icon: "pencil", color: .secondary200) {
+                currentFolder.isDeleteOnCancel = false
+                currentFolder.current = _folder
+                currentFolder.editing.toggle()
             }
         ]
     }

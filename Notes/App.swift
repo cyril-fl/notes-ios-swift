@@ -1,6 +1,8 @@
 import SwiftUI
 import SwiftData
 
+
+// Refactor OK
 @main
 struct NotesApp: App {
     @State private var alert = useAlert()
@@ -11,7 +13,7 @@ struct NotesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(alert: alert, file: file, folder: folder,search: search)
+            ContentView(alert: alert, file: file, folder: folder)
         }
         .modelContainer(for: Folder.self)
         .environment(alert)
@@ -19,7 +21,6 @@ struct NotesApp: App {
         .environment(folder)
         .environment(modal)
         .environment(search)
-        
     }
 }
 

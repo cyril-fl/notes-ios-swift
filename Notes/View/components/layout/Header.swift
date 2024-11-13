@@ -1,5 +1,6 @@
 import SwiftUI
 
+// TODO refactor avec un useHeader
 struct HeaderButtonList: View {
     @Binding var display: DisplayMode
     
@@ -12,6 +13,16 @@ struct HeaderButtonList: View {
             }
         }
     }
+    
+    private var ToolbarContent: some ToolbarContent {
+            ToolbarItem(placement: .automatic) {
+                ForEach(listedAction, id: \.icon) { item in
+
+                CButton(item.icon, icon: item.icon, style: .accent, size: .xs, action: item.action)
+            }
+        }
+    }
+
 
     private var listedAction: [IconButtonInterface] {
         [

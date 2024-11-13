@@ -1,5 +1,6 @@
 import SwiftUI
 
+// TODO : Refactor comme FolderistCard
 enum FileGridCardVariant {
     case base
     case search
@@ -7,7 +8,7 @@ enum FileGridCardVariant {
 
 struct FileGridCard: View {
     @Environment(\.defaultFileName) private var defaultName
-    @Environment(useFile.self) private var file
+    @Environment(useFile.self) private var currentFile
     
     private let key: UUID
     @State private var name: String
@@ -42,21 +43,21 @@ struct FileGridCard: View {
                 SearchThumbnail
             }
         }
-        .onChange(of: file.current) {
-            guard file.id == key else { return }
-            name = file.name.isEmpty ? defaultName : file.name
+        .onChange(of: currentFile.current) {
+            guard currentFile.id == key else { return }
+            name = currentFile.name.isEmpty ? defaultName : currentFile.name
         }
-        .onChange(of: file.editing) {
-            guard !file.editing else { return }
+        .onChange(of: currentFile.editing) {
+            guard !currentFile.editing else { return }
             updateView()
         }
     }
     
     private func updateView() {
-        guard file.id == key else { return }
-        name = file.name
-        content = file.content
-        lastUpdateDate = file.lastModified
+        guard currentFile.id == key else { return }
+        name = currentFile.name
+        content = currentFile.content
+        lastUpdateDate = currentFile.lastUpdateDate
     }
     
     var BaseThumbnail: some View {

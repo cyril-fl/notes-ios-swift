@@ -1,11 +1,13 @@
 import SwiftUI
 import SwiftData
 
+
+// TODO Refatcor
 struct ActionFileView: View {
     @Query() private var folders : [Folder]
     @Environment(\.modelContext) private var context
-    @Environment(useFolder.self) private var folder
-    @Environment(useFile.self) private var file
+    @Environment(useFolder.self) private var currentFolder
+    @Environment(useFile.self) private var currentFile
 
     var _f: File
     
@@ -29,7 +31,7 @@ struct ActionFileView: View {
     
     private func ButtonLabel(_ label: String, _ icon: String) -> some View {
         Group {
-            switch file.display {
+            switch currentFile.display {
             case .list:
                 Image(systemName: icon)
             case .grid:

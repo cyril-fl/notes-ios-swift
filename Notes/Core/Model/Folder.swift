@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Folder: Identifiable {
+final class Folder: Identifiable, ContentNode {
     #Unique<Folder>([\.id])
     
     private(set) var id: UUID

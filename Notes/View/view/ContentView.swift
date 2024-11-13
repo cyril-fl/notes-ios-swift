@@ -1,73 +1,25 @@
 import SwiftUI
 import SwiftData
-
-//struct ContentViewV1: View {
-//    @State var presentSearchBar: Bool = false
-//
-//    var body: some View {
-//
-//        NavigationView {
-//            VStack {
-////                //TODOO mieux implementer la recher mais y a de l'ide
-//////                VStack {
-////                    CSearch<File>(keyPath: \File.content, isPresented: search.boundIsPresented, reset: true)
-////                        .padding(.top, .xs)
-////                    SearchResults()
-//////                }
-//////                .background(.primary800)
-//////                .cornerRadius(.lg)
-//////                .padding(.md)
-//
-//
-//                DetailedFolderView()
-//            }
-//
-//            // TOOLBAR FOLDER
-////            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
-////            .toolbarBackgroundVisibility(.hidden)
-//
-//
-//        }
-//
-//
-
-
-//
-//    }
-//
-//    var isFileFormModalPresented: Binding<Bool> {
-//        Binding(
-//            get: { fi_current.boundEditing.wrappedValue && modal.current == .SearchModal },
-//            set: { newValue in
-//                fi_current.boundEditing.wrappedValue = newValue
-//            })
-//    }
-//
-//
-//}
-
-
+// Refactor - OK
 struct ContentView: View {
+    @Environment(useSearch.self) var search
+    
     @Bindable var alert: useAlert
     @Bindable var file: useFile
     @Bindable var folder: useFolder
-    @Bindable var search: useSearch
-    
     
     var body: some View {
         NavigationView {
-            
-            
-//            CSearch<File>(keyPath: \File.content, isPresented: $search.present, reset: true)
-//                .padding(.top, .xs)
-//            SearchResults()
-        
-
-            
-            ContentFoldersView()
+            VStack {
+                PanelSearchView(search: search)
+                ContentFoldersView(current: folder)
+            }
+        }
+        .fullScreenModal(isPresented: $file.editing) {
+            FormFileView(file.current)
         }
         .fullScreenModal(isPresented: $folder.editing, color: .clear, drag: false) {
-            FormFolderView()
+            FormFolderView(folder.current, deleteOnCancel: folder.isDeleteOnCancel)
         }
         .alert(alert.title, isPresented: $alert.state) {
             alert.displayAction()
@@ -79,7 +31,7 @@ struct ContentView: View {
 
 
     #Preview {
-        ContentView(alert: useAlert(), file: useFile(), folder: useFolder(), search: useSearch())
+        ContentView(alert: useAlert(), file: useFile(), folder: useFolder())
             .environment(useFolder())
             .environment(useFile())
             .environment(useAlert())

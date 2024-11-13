@@ -1,7 +1,5 @@
 import SwiftUI
 
-
-
 enum SpacingSize: CGFloat {
     /// size : 4pt
     case xs = 4
@@ -41,8 +39,6 @@ enum CornerRadiusSize: CGFloat {
     /// size : 9999pt ( Pour un cercle complet )
     case full = 9999
 }
-
-
 
 
 extension VStack {

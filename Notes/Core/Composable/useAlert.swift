@@ -3,15 +3,12 @@ import SwiftUI
 import Observation
 
 @Observable
-final class useAlert: ObservableObject {
+final class useAlert {
     var state: Bool = false
     var title: String = ""
     var message: String = ""
     var actions: [RoleButtonInterface] = []
 
-    
-    
-    
     
     func displayAction() -> some View {
         ForEach(actions, id: \.name) { a in

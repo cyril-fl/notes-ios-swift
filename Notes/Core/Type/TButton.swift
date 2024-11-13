@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct IconButtonInterface: Iconed, Action {
+struct IconButtonInterface {
     let icon: String
     let action: () -> Void
 }
 
-struct RoleButtonInterface: Named, Roled, Action {
+struct RoleButtonInterface {
     let name: String
     let role: ButtonRole
     let action: () -> Void
@@ -17,7 +17,7 @@ struct RoleButtonInterface: Named, Roled, Action {
     }
 }
 
-struct StyledButtonInterface: Named, Styled, Action {
+struct StyledButtonInterface {
     let name: String
     var style: ButtonType
     var action: () -> Void
@@ -29,7 +29,7 @@ struct StyledButtonInterface: Named, Styled, Action {
     }
 }
 
-struct SwipeButtonInterface: Named, Iconed, Colored, Action {
+struct SwipeButtonInterface {
     let name: String
     let icon: String
     let color: Color

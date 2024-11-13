@@ -44,7 +44,7 @@ struct SearchFormUI: FormStyle {
         HStack(spacing: .sm) {
             configuration.content
         }
-        .padding(.bottom, .sm)
+        .padding(.vertical, .md)
         .padding(.horizontal, .lg)
     }
 }

@@ -3,18 +3,24 @@ import SwiftUI
 struct FormFileView: View {
     @Environment(\.defaultFileName) private var defaultName
     @Environment(\.modelContext) private var context
-    @Environment(useFolder.self) private var folder
-    @Environment(useFile.self) private var file
+    @Environment(useFolder.self) private var currentFolder
+    
+    @Bindable private var file: File
 
-    @State private var _name: String = ""
-    @State private var _content: String = ""
-    @State private var _placeholder: String = ""
+    @State private var name: String = ""
+    @State private var content: String = ""
+    @State private var previous: String = ""
+    
     @FocusState private var isNameFocused: Bool
     @FocusState private var isContentFocused: Bool
     
+    init(_ file: File) {
+        _file = .init( file)
+    }
+    
     var body: some View {
         Form {
-            TextField(_placeholder, text: $_name)
+            TextField(previous, text: $name)
                 .font(.title3)
                 .fontWeight(.semibold)
                 .focused($isNameFocused)
@@ -22,22 +28,22 @@ struct FormFileView: View {
                 .onSubmit {
                     isContentFocused = true
                 }
-            TextEnhancedEditor(text: $_content)
+            TextEnhancedEditor(text: $content)
                 .textEditorForegroundColor(.secondary950)
                 .focused($isContentFocused)
                 .tint(.primary600)
         }
         .formStyle(.reset)
         .onAppear {
-            _name = file.name.isEmpty ? defaultName : file.name
-            _placeholder = file.name.isEmpty ? defaultName : file.name
-            _content = file.content
+            name = file.name.isEmpty ? defaultName : file.name
+            previous = file.name.isEmpty ? defaultName : file.name
+            content = file.content
             handleFocus()
         }
-        .onChange(of: _name, initial: false) { old, new in
+        .onChange(of: name, initial: false) { old, new in
             file.name = new
         }
-        .onChange(of: _content, initial: false) { old, new in
+        .onChange(of: content, initial: false) { old, new in
             file.content = new
         }
         .onDisappear {
@@ -56,17 +62,16 @@ struct FormFileView: View {
     }
     
     private func handleAutoDelete() {
-        guard _content.isEmpty,
-              let idToDelete = file.current?.id,
-              let folderToUpdate = folder.current,
-              let _file = folderToUpdate.files.first(where: { $0.id == idToDelete })
+        guard content.isEmpty,
+              let _file = currentFolder.files.first(where: { $0.id == file.id })
         else {
-            folder.lastModified = Date()
+            print("ICI")
+            currentFolder.lastUpdateDate = Date()
             return
         }
 
         withAnimation {
-            folderToUpdate.deleteFileById(fileId: idToDelete)
+            currentFolder.current.deleteFileById(fileId: file.id)
             context.delete(_file)
         }
     }

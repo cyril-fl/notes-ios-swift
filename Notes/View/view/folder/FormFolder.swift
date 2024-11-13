@@ -1,20 +1,29 @@
 import SwiftUI
 
+// Refactor OK
 struct FormFolderView: View {
     @Environment(\.defaultFolderName) private var defaultName
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @Environment(useFolder.self) private var folder
-
-    @State private var _name: String = ""
-    @State private var _previous: String = ""
-    @FocusState private var isFocus: Bool
+    
+    @Bindable var folder: Folder
+    
+    @State var name: String = ""
+    @State var previous: String = ""
+    @FocusState var isFocus: Bool
+    
+    var isDeleteOnCancel: Bool
+    
+    init(_ folder: Folder, deleteOnCancel: Bool) {
+        _folder = .init(folder)
+        isDeleteOnCancel = deleteOnCancel
+    }
     
     var body: some View {
         Form {
             FormLabel
             
-            TextField(_previous, text: $_name)
+            TextField(previous, text: $name)
                 .padding(.vertical, .sm)
                 .padding(.horizontal, .md)
                 .background(.secondary100)
@@ -31,11 +40,11 @@ struct FormFolderView: View {
         }
         .formStyle(.popup)
         .onAppear() {
-            _name = folder.name.isEmpty ? defaultName : folder.name
-            _previous = folder.name.isEmpty ? defaultName : folder.name
+            name = folder.name.isEmpty ? defaultName : folder.name
+            previous = folder.name.isEmpty ? defaultName : folder.name
             isFocus = true
         }
-        .onChange(of: _name, initial: false) { old, new in
+        .onChange(of: name, initial: false) { old, new in
             if !new.isEmpty && new != old && new != folder.name {
                 folder.name = new
             }
@@ -57,28 +66,31 @@ struct FormFolderView: View {
      }
     
     private func handleSubmit() {
-        if folder.name != _previous {
-            folder.lastModified = Date()
+        if folder.name != previous {
+            folder.lastUpdateDate = Date()
         }
         dismiss()
     }
 
     private func handleCancel() {
         withAnimation {
-            if folder.delete, let folder = folder.current {
+            if isDeleteOnCancel {
                 context.delete(folder)
             }
-            folder.name = _previous
+            folder.name = previous
             dismiss()
         }
     }
 }
 
 #Preview {
+    let temp = Folder(name: "Nouveau dossier", path: "")
+    
+
     ZStack {
         CModalOverlay()
             
-        FormFolderView()
+        FormFolderView(temp, deleteOnCancel: false)
             .zIndex(40)
             .environment(\.defaultFolderName, "Nouveau dossier")
             .environment(useFolder())

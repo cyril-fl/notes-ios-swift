@@ -1,58 +1,47 @@
 import SwiftUI
 
-struct ContentFileView: View {
-    @Environment(useFolder.self) private var folder
-    @Environment(useFile.self) private var file
-    @Environment(\.presentationMode) var presentationMode
-    @Environment(useModal.self) private var modal
+
+// TODO sync avec ContentFolderView
+struct ContentFilesView: View {
+//    @Environment(\.presentationMode) var presentationMode
+    @Environment(useFolder.self) private var currentFolder
+
+    // Todo try to delete ça
+    @Bindable var parent: Folder
+    
+    // Todo rename current
+    @Bindable var currentFile: useFile
 
     var body: some View {
         Group {
-            if folder.files.isEmpty {
+            if currentFolder.files.isEmpty {
                 UnavailableCard(title: "Notes", message: "Aucune note trouvé", icon: "document")
             } else {
-                Group {
-                    switch file.display {
-                    case .list:
-                        ListFileView()
-                            .transition(.move(edge: .leading).combined(with: .opacity))
-                    case .grid:
-                        GridFileView()
-                            .transition(.move(edge: .trailing).combined(with: .opacity))
-                    }
-                }
-                .animation(.easeInOut, value: file.display)
+                FileListView()
             }
         }
-        .navigationTitle(folder.name)
-        
-        //TODO clean toolbar systeme
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                HeaderButtonList(display: file.boundDisplay, add: addFile)
-            }
+            //TODO clean toolbar systeme
+            HeaderButtonList(display: $currentFile.display, add: addFile)
         }
-        .toolbarTitleDisplayMode(.inline)
-        
         .toolbarBackground(Color(.systemBackground), for: .navigationBar)
 //        .toolbarBackgroundVisibility(.hidden)
-
-        .onAppear {
-            modal.current = .EditModal
-        }
-        .fullScreenModal(isPresented: file.boundEditing) {
-            FormFileView()
+//        .toolbarTitleDisplayMode(.inline)
+//        .navigationTitle(currentFolder.name)
+        .transition(.move(edge: .trailing).combined(with: .opacity))
+        .animation(.easeInOut, value: currentFile.display)
+        //TODO : deplacer a un meilleur endroit
+        .fullScreenModal(isPresented: $currentFile.editing) {
+            FormFileView(currentFile.current)
         }
     }
     
     private func addFile() {
-        let _new = File(path: "\(folder.path)\(folder.name)")
-        
         withAnimation {
-            folder.files.append(_new)
-            file.current = _new
-            file.editing.toggle()
+            let _new = File(path: "\(currentFolder.path)\(currentFolder.name)")
+            currentFolder.files.append(_new)
+            currentFile.current = _new
+            currentFile.editing.toggle()
         }
     }
 }
-
