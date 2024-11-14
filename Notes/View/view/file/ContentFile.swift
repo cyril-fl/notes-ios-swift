@@ -1,38 +1,38 @@
 import SwiftUI
 
-
-// TODO sync avec ContentFolderView
 struct ContentFilesView: View {
-//    @Environment(\.presentationMode) var presentationMode
     @Environment(useFolder.self) private var currentFolder
-
-    // Todo try to delete ça
-    @Bindable var parent: Folder
     
-    // Todo rename current
     @Bindable var currentFile: useFile
-
+    
     var body: some View {
-        Group {
-            if currentFolder.files.isEmpty {
-                UnavailableCard(title: "Notes", message: "Aucune note trouvé", icon: "document")
-            } else {
-                FileListView()
+        content
+            .toolbar {
+                ToolbarItem {
+                    CButton("plus", icon: "plus", style: .accent, size: .xs, action: addFile)
+                }
+                ToolbarItem {
+                    CButton(toggledIcon, icon: toggledIcon, style: .accent, size: .xs, action: toggleViewMode)
+                }
             }
+    }
+    
+    private var toggledIcon: String {
+        currentFile.display == .list ? "square.grid.2x2" : "list.bullet"
+    }
+    
+    private func toggleViewMode() {
+        withAnimation {
+            currentFile.display.toggle()
         }
-        .toolbar {
-            //TODO clean toolbar systeme
-            HeaderButtonList(display: $currentFile.display, add: addFile)
-        }
-        .toolbarBackground(Color(.systemBackground), for: .navigationBar)
-//        .toolbarBackgroundVisibility(.hidden)
-//        .toolbarTitleDisplayMode(.inline)
-//        .navigationTitle(currentFolder.name)
-        .transition(.move(edge: .trailing).combined(with: .opacity))
-        .animation(.easeInOut, value: currentFile.display)
-        //TODO : deplacer a un meilleur endroit
-        .fullScreenModal(isPresented: $currentFile.editing) {
-            FormFileView(currentFile.current)
+    }
+    
+    @ViewBuilder
+    var content : some View {
+        if currentFolder.files.isEmpty {
+            UnavailableCard(title: "Notes", message: "Aucune note trouvé", icon: "document")
+        } else {
+            FileListView()
         }
     }
     
@@ -45,3 +45,17 @@ struct ContentFilesView: View {
         }
     }
 }
+
+//TODO : deplacer a un meilleur endroit
+//    .fullScreenModal(isPresented: $currentFile.editing) {
+//        FormFileView(currentFile.current!)
+//    }
+
+
+// .toolbarBackgroundVisibility(.hidden)
+// .toolbarTitleDisplayMode(.inline)
+// .navigationTitle(currentFolder.name)
+// .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+
+
+

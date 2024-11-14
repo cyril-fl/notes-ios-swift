@@ -71,7 +71,7 @@ struct FormFileView: View {
         }
 
         withAnimation {
-            currentFolder.current.deleteFileById(fileId: file.id)
+            currentFolder.current?.deleteFileById(fileId: file.id)
             context.delete(_file)
         }
     }

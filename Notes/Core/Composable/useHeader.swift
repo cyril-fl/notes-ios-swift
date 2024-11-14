@@ -1,11 +1,15 @@
-import SwiftUI
+//import SwiftUI
+//
+//
+//@Observable
+//class useHeader {
+//    var toolbarItems: [any ToolbarContent] = []
+//
+//    func display() {
+//        toolbarItems.append(toolbarItems)
+//    }
+//}
 
-
-@Observable
-class useHeader {
-}
-
-import SwiftUI
 
 //extension View {
     /// Ajoute une barre d'outils personnalisée avec un bouton d'action.

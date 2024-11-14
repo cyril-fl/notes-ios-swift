@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 // TODO : Refactor avec @Bindable si possible
-struct CSearch<T: PersistentModel & Identifiable & Searchable>: View {
+struct CSearch<T: PersistentModel & Identifiable>: View {
     @Environment(useFile.self) private var currentFile
     @Environment(useSearch.self) private var search
     
@@ -31,7 +31,7 @@ struct CSearch<T: PersistentModel & Identifiable & Searchable>: View {
         Group {
             if isAlwaysPresented || isPresented {
                 SearchBar
-                    .transition(.opacity.combined(with: .move(edge: .top)))
+//                    .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
         .animation(.easeInOut, value: isPresented)

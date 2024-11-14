@@ -10,16 +10,13 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                PanelSearchView(search: search)
-                ContentFoldersView(current: folder)
-            }
+            ContentFoldersView(currentFolder: folder)
         }
         .fullScreenModal(isPresented: $file.editing) {
-            FormFileView(file.current)
+            FormFileView(file.current!)
         }
         .fullScreenModal(isPresented: $folder.editing, color: .clear, drag: false) {
-            FormFolderView(folder.current, deleteOnCancel: folder.isDeleteOnCancel)
+            FormFolderView(folder.current!, deleteOnCancel: folder.isDeleteOnCancel)
         }
         .alert(alert.title, isPresented: $alert.state) {
             alert.displayAction()
@@ -29,13 +26,19 @@ struct ContentView: View {
     }
 }
 
-
     #Preview {
-        ContentView(alert: useAlert(), file: useFile(), folder: useFolder())
-            .environment(useFolder())
-            .environment(useFile())
-            .environment(useAlert())
-            .environment(useSearch())
-            .environment(useModal())
+        @Previewable @State var folder = useFolder()
+        @Previewable @State var alert = useAlert()
+        @Previewable @State var file = useFile()
+        @Previewable @State var search = useSearch()
+        @Previewable @State var modal = useModal()
+        
+        ContentView(alert: useAlert(), file: useFile(), folder: folder)
+            .environment(folder)
+            .environment(file)
+            .environment(alert)
+            .environment(search)
+            .environment(modal)
             .modelContainer(for: Folder.self)
+
     }

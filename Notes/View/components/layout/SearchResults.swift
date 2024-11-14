@@ -19,8 +19,8 @@ struct SearchResults: View {
             }
         }
         .frame(maxHeight: 100)
-        .transition(.move(edge: .top))
-        .animation(.easeOut(duration: 0.2), value: results.isEmpty)
+//        .transition(.move(edge: .top))
+//        .animation(.easeOut(duration: 0.2), value: results.isEmpty)
         .onChange(of: search.query) {
             DispatchQueue.main.async {
                 results = search.query.isEmpty ? [] : search.results.compactMap { $0 as? File }
@@ -41,14 +41,14 @@ struct SearchResults: View {
         ScrollView(.horizontal) {
             LazyHGrid(rows: layout, spacing: 10) {
                 ForEach(results) { _file in
-                    FileGridCard(_file, color: Color(.systemBackground), variant: .search)
-                        .onTapGesture {
-                            currentFile.current = _file
-                            currentFile.editing.toggle()
-                        }
-                        .contextMenu {
-                            ActionFileView(_file)
-                        }
+//                    FileGridCard(_file, color: Color(.systemBackground), variant: .search)
+//                        .onTapGesture {
+//                            currentFile.current = _file
+//                            currentFile.editing.toggle()
+//                        }
+//                        .contextMenu {
+//                            ActionFileView(_file)
+//                        }
                 }
             }
         }

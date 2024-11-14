@@ -5,15 +5,15 @@ protocol ContentNode  {
     var path: String { get  set}
     var lastUpdateDate: Date { get set }
 }
-protocol Displayable {
-    var display: DisplayMode { get set }
-}
 
 
+//protocol Displayable {
+//    var display: DisplayMode { get set }
+//}
 
 
 
 //TODO suprimer ce protocol
-protocol Searchable {
-    var content: String { get }
-}
+//protocol Searchable {
+//    var content: String { get }
+//}

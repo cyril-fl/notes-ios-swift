@@ -1,8 +1,6 @@
 import SwiftUI
 import SwiftData
 
-
-// Refactor OK
 @main
 struct NotesApp: App {
     @State private var alert = useAlert()

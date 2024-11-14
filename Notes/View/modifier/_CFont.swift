@@ -51,7 +51,7 @@ enum FontStyle {
         case .h1:
             return .primary700
         case .h2:
-            return .gray
+            return .primary700
         case .h3:
             return .secondary950
         case .caption:

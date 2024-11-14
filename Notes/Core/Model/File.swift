@@ -4,7 +4,7 @@ import SwiftData
 
 // TODO Supprimer Searchable
 @Model
-class File: Identifiable, ContentNode, Searchable {
+class File: Identifiable, ContentNode {
     #Unique<File>([\.id])
 
     private(set) final var id: UUID
