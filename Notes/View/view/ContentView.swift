@@ -1,6 +1,6 @@
 import SwiftUI
 import SwiftData
-// Refactor - OK
+
 struct ContentView: View {
     @Environment(useSearch.self) var search
     
@@ -10,7 +10,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            ContentFoldersView(currentFolder: folder)
+            HeaderFolderView(currentFolder: folder)
         }
         .fullScreenModal(isPresented: $file.editing) {
             FormFileView(file.current!)
@@ -26,19 +26,19 @@ struct ContentView: View {
     }
 }
 
-    #Preview {
-        @Previewable @State var folder = useFolder()
-        @Previewable @State var alert = useAlert()
-        @Previewable @State var file = useFile()
-        @Previewable @State var search = useSearch()
-        @Previewable @State var modal = useModal()
-        
-        ContentView(alert: useAlert(), file: useFile(), folder: folder)
-            .environment(folder)
-            .environment(file)
-            .environment(alert)
-            .environment(search)
-            .environment(modal)
-            .modelContainer(for: Folder.self)
 
-    }
+#Preview {
+    @Previewable @State var folder = useFolder()
+    @Previewable @State var alert = useAlert()
+    @Previewable @State var file = useFile()
+    @Previewable @State var search = useSearch()
+    @Previewable @State var modal = useModal()
+    
+    ContentView(alert: alert, file: useFile(), folder: folder)
+        .environment(folder)
+        .environment(file)
+        .environment(alert)
+        .environment(search)
+        .environment(modal)
+        .modelContainer(for: Folder.self)
+}

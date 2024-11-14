@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct FolderListView: View {
     @Environment(useFolder.self) private var currentFolder
     @Environment(useFile.self) private var currentFile
@@ -10,13 +9,7 @@ struct FolderListView: View {
     
     var body: some View {
         ScrollView {
-            if search.present {
-                Section {
-                    PanelSearchView(search: search)
-                } header: {
-                    headerCard
-                }
-            }
+            searchSection
             
             LazyVGrid (
                 columns: columns,
@@ -29,22 +22,30 @@ struct FolderListView: View {
                     headerCard
                 }
             }
-            .padding(.horizontal, .xl2)
         }
+        .padding(.horizontal, .xl2)
     }
-    
-    
-
-    
+        
     private var columns: [GridItem] {
         let count = currentFolder.display == .grid ? 2 : 1
         return Array(repeating: GridItem(.adaptive(minimum: 300), spacing: 15), count: count)
     }
 
+    @ViewBuilder
+    private var searchSection: some View {
+        if search.present {
+            Section {
+                PanelSearchView(search: search)
+            } header: {
+                headerCard
+            }
+        }
+    }
+    
     private var folderList: some View {
         ForEach(folders, id: \.id) { folder in
             NavigationLink {
-                ContentFilesView(currentFile: currentFile)
+                HeaderFileView(currentFile: currentFile)
                     .onAppear {
                         currentFolder.current = folder
                     }
@@ -90,16 +91,3 @@ struct FolderListView: View {
         }
     }
 }
-
-
-
-//// TODO ameliorer la toolbard
-////    .toolbar {
-////        // TODO: clean toolbar systeme
-////        HeaderButtonList(display: $current.display, add: addFolder)
-////    }
-////    .toolbarBackground(Color(.systemBackground), for: .navigationBar)
-////    .toolbarBackgroundVisibility(.visible)
-////    .padding(.horizontal, .lg)
-////    .background(Color(.systemBackground))
-////    .foregroundStyle(.secondary900)
