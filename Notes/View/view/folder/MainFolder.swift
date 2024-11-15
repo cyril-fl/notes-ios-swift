@@ -1,19 +1,19 @@
 import SwiftUI
 import SwiftData
 
-struct HeaderFolderView: View {
+struct MainFolderView: View {
     @Query(sort: \Folder.lastUpdateDate, order: .reverse, animation: .easeIn)
      var folders: [Folder]
 
     @Environment(\.modelContext) private var context
     
     @Bindable var currentFolder: useFolder
-    
+        
     var body: some View {
         content
             .toolbar {
                 addButton
-                toogleDisplayMode
+                displayButton
             }
     }
     
@@ -40,7 +40,7 @@ struct HeaderFolderView: View {
         }
     }
 
-    private var toogleDisplayMode: some ToolbarContent {
+    private var displayButton: some ToolbarContent {
         ToolbarItem {
             let icon = currentFolder.display == .list ? "square.grid.2x2" : "list.bullet"
             

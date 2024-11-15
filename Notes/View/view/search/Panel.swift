@@ -10,6 +10,5 @@ struct PanelSearchView: View {
         }
         .background(.secondary200)
         .cornerRadius(.lg)
-        .padding(.xl)
     }
 }

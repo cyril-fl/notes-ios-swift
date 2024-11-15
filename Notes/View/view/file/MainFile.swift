@@ -1,18 +1,15 @@
 import SwiftUI
 
-struct HeaderFileView: View {
+struct MainFileView: View {
     @Environment(useFolder.self) private var currentFolder
     
     @Bindable var currentFile: useFile
     
     var body: some View {
         content
-            .fullScreenModal(isPresented: $currentFile.editing) {
-                FormFileView(currentFile.current!)
-            }
             .toolbar {
                 addButton
-                toogleDisplayMode
+                displayButton
             }
     }
     
@@ -38,7 +35,7 @@ struct HeaderFileView: View {
         }
     }
     
-    private var toogleDisplayMode: some ToolbarContent {
+    private var displayButton: some ToolbarContent {
         ToolbarItem {
             let icon = currentFile.display == .list ? "square.grid.2x2" : "list.bullet"
             
@@ -53,3 +50,28 @@ struct HeaderFileView: View {
 
 
 
+
+#Preview {
+    @Previewable @State var folder = useFolder()
+    @Previewable @State var alert = useAlert()
+    @Previewable @State var file = useFile()
+    @Previewable @State var search = useSearch()
+    
+    
+
+    MainFileView(currentFile: file)
+        .onAppear() {
+            folder.current = Folder(name: "Main file", path: "/")
+            for i in 0..<10 {
+                folder.current?.newFile(
+                    name: "Folder \(i)",
+                    content: "String")
+            }
+            
+        }
+        .environment(folder)
+        .environment(file)
+        .environment(alert)
+        .environment(search)
+        .modelContainer(for: Folder.self)
+}

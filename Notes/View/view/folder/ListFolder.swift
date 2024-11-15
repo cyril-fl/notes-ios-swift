@@ -45,7 +45,7 @@ struct FolderListView: View {
     private var folderList: some View {
         ForEach(folders, id: \.id) { folder in
             NavigationLink {
-                HeaderFileView(currentFile: currentFile)
+                MainFileView(currentFile: currentFile)
                     .onAppear {
                         currentFolder.current = folder
                     }
@@ -53,7 +53,7 @@ struct FolderListView: View {
                 card(for: folder)
             }
             .contextMenu {
-                ActionFolderView(folder)
+                ActionFolderView(folder: folder)
             }
 
         }

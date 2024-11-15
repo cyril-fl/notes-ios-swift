@@ -12,42 +12,35 @@ struct FileGridCard: View {
     
     @Bindable var file: File
     @State var name: String = ""
+    
     @State var content: String = ""
     
-    var color: Color = .primary400
+    var color: Color = .primary900
     var variant: FileGridCardVariant = .base
     
     var body: some View {
         VStack {
-            contentView
+            card
         }
         .onAppear {
-            name = name.isEmpty ? defaultName : name
-        }
-        .onChange(of: currentFile.current) {
-            name = currentFile.name.isEmpty ? defaultName : currentFile.name
-        }
-        .onChange(of: currentFile.editing) {
-            if !currentFile.editing {
-                updateView()
-            }
+            handleInit()
         }
     }
-    
-    private var contentView: some View {
-        Group {
-            switch variant {
-            case .base:
-                baseContent
-            case .search:
-                searchContent
-            }
+        
+
+    @ViewBuilder
+    private var card: some View {
+        switch variant {
+        case .base:
+            baseContent
+        case .search:
+            searchContent
         }
     }
     
     private var baseContent: some View {
         VStack {
-            Thumbnail(maxHeight: 80)
+            Thumbnail()
             Name
             UpdateDate
         }
@@ -55,10 +48,10 @@ struct FileGridCard: View {
     }
     
     private var searchContent: some View {
-        Thumbnail(maxHeight: .infinity)
+        Thumbnail()
     }
     
-    func Thumbnail(maxHeight: CGFloat) -> some View {
+    func Thumbnail() -> some View {
         HStack(alignment: .top) {
             VStack {
                 Text(content)
@@ -68,10 +61,10 @@ struct FileGridCard: View {
             Spacer()
         }
         .frame(minHeight: 30)
-        .frame(width: 110)
-        .frame(maxHeight: maxHeight)
+        .frame(maxHeight: 120)
+        .frame(maxWidth: 110)
         .padding(10)
-        .background(color)
+        .background(.secondary100)
         .cornerRadius(10)
     }
     
@@ -86,8 +79,8 @@ struct FileGridCard: View {
             .foregroundStyle(.secondary500)
     }
     
-    private func updateView() {
-        name = currentFile.name
-        content = currentFile.content
+    private func handleInit() {
+        name = file.name.isEmpty ? defaultName : file.name
+        content = file.content
     }
 }

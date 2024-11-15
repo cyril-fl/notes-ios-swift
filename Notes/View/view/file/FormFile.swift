@@ -5,8 +5,8 @@ struct FormFileView: View {
     @Environment(\.modelContext) private var context
     @Environment(useFolder.self) private var currentFolder
     
-    @Bindable private var file: File
-
+    @Bindable var file: File
+    
     @State private var name: String = ""
     @State private var content: String = ""
     @State private var previous: String = ""
@@ -14,36 +14,22 @@ struct FormFileView: View {
     @FocusState private var isNameFocused: Bool
     @FocusState private var isContentFocused: Bool
     
-    init(_ file: File) {
-        _file = .init( file)
-    }
-    
     var body: some View {
         Form {
-            TextField(previous, text: $name)
-                .font(.title3)
-                .fontWeight(.semibold)
-                .focused($isNameFocused)
-                .tint(.primary600)
-                .onSubmit {
-                    isContentFocused = true
-                }
-            TextEnhancedEditor(text: $content)
-                .textEditorForegroundColor(.secondary950)
-                .focused($isContentFocused)
-                .tint(.primary600)
+            formNameInput
+            formContentInput
         }
         .formStyle(.reset)
         .onAppear {
-            name = file.name.isEmpty ? defaultName : file.name
-            previous = file.name.isEmpty ? defaultName : file.name
-            content = file.content
+            handleInit()
             handleFocus()
         }
         .onChange(of: name, initial: false) { old, new in
+            guard !new.isEmpty, new != old, new != file.name else { return }
             file.name = new
         }
         .onChange(of: content, initial: false) { old, new in
+            guard !new.isEmpty, new != old, new != file.content else { return }
             file.content = new
         }
         .onDisappear {
@@ -51,28 +37,48 @@ struct FormFileView: View {
         }
     }
     
-    private func handleFocus() {
-        if file.name.isEmpty {
-            isNameFocused = true
-            isContentFocused = false
-        } else {
-            isNameFocused = false
-            isContentFocused = true
-        }
+    
+    private var formNameInput: some View {
+        TextField(previous, text: $name)
+            .font(.title3)
+            .fontWeight(.semibold)
+            .focused($isNameFocused)
+            .tint(.primary600)
+            .onSubmit {
+                isContentFocused = true
+            }
     }
     
-    private func handleAutoDelete() {
-        guard content.isEmpty,
-              let _file = currentFolder.files.first(where: { $0.id == file.id })
-        else {
-            print("ICI")
-            currentFolder.lastUpdateDate = Date()
-            return
-        }
+    private var formContentInput: some View {
+        TextEnhancedEditor(text: $content)
+            .textEditorForegroundColor(.secondary950)
+            .focused($isContentFocused)
+            .tint(.primary600)
+    }
+    
+    
 
+    private func handleInit() {
+        name = file.name.isEmpty ? defaultName : file.name
+        previous = file.name.isEmpty ? defaultName : file.name
+        content = file.content
+    }
+    
+    private func handleFocus() {
+        isNameFocused = file.name.isEmpty ? true : false
+        isContentFocused = file.name.isEmpty ? false : true
+    }
+    
+    
+    private func handleAutoDelete() {
         withAnimation {
+            if !content.isEmpty {
+                currentFolder.lastUpdateDate = Date()
+                file.lastUpdateDate = Date()
+                return
+            }
             currentFolder.current?.deleteFileById(fileId: file.id)
-            context.delete(_file)
+            context.delete(file)
         }
     }
 }

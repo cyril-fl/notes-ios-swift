@@ -6,53 +6,63 @@ struct FileListCard: View {
     @Environment(useFile.self) private var currentFile
     
     @Bindable var file: File
-    @State var name: String = ""
+    @State var name: String = "nkjnk"
     @State var content: String = ""
     
     var color: Color = .primary400
     var variant: FileGridCardVariant = .base
         
     var body: some View {
-        HStack(alignment: .top) {
-            contentView
-            Spacer()
-        }
-        .contentShape(Rectangle())
-        .frame(maxWidth: .infinity)
-        .onChange(of: currentFile.current) {
-            name = currentFile.name.isEmpty ? defaultName : currentFile.name
-        }
-        .onChange(of: currentFile.editing, initial: false) {
-            if !currentFile.editing {
+        card
+            .contentShape(Rectangle())
+            .frame(maxWidth: .infinity)
+            .onAppear() {
+                handleAppear()
+            }
+            .onChange(of: currentFile.editing, initial: false) {
+                guard !currentFile.editing else { return }
                 updateView()
             }
-        }
     }
     
-    private var contentView: some View {
-        VStack(alignment: .leading) {
-            Name
-            Text(content)
-                .font(.subheadline)
-                .foregroundStyle(.secondary500)
-                .lineLimit(2)
-            Text("\(file.lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
-                .font(.caption)
-                .foregroundStyle(.secondary500)
+    private var card: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .leading) {
+                label
+                note
+                lastUpdate
+            }
+            Spacer()
         }
-    }
-    
-    private func updateView() {
-        name = currentFile.name
-        content = currentFile.content
     }
     
     @ViewBuilder
-    var Name: some View {
-        if !name.isEmpty {
-            Text(name)
-                .font(.headline)
-                .foregroundStyle(.secondary900)
-        }
+    var label: some View {
+        Text(name)
+            .font(.headline)
+            .foregroundStyle(.secondary900)
+    }
+    
+    var note: some View {
+        Text(content)
+            .font(.subheadline)
+            .foregroundStyle(.secondary500)
+            .lineLimit(2)
+    }
+    
+    var lastUpdate: some View {
+        Text("\(file.lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
+            .font(.caption)
+            .foregroundStyle(.secondary500)
+    }
+    
+    private func handleAppear() {
+        name = file.name.isEmpty ? defaultName : file.name
+        content = file.content
+    }
+    
+    private func updateView() {
+        name = file.name
+        content = file.content
     }
 }

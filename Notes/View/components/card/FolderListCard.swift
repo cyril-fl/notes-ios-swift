@@ -1,6 +1,5 @@
 import SwiftUI
 
-// Refactor OK
 struct FolderListCard: View {
     @Environment(\.defaultFolderName) private var defaultName
     @Environment(useFolder.self) private var currentFolder
