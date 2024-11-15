@@ -5,9 +5,9 @@ class useItem<T: Identifiable & ContentNode> {
     var current: T?
     var isDeleteOnCancel: Bool = false
     var editing: Bool = false
-    var display: DisplayMode
+    var display: Layout
     
-    init(display: DisplayMode) {
+    init(display: Layout) {
         self.display = display
     }
     

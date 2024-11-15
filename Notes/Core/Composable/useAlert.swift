@@ -7,12 +7,12 @@ final class useAlert {
     var state: Bool = false
     var title: String = ""
     var message: String = ""
-    var actions: [RoleButtonInterface] = []
+    var actions: [AlertAction] = []
 
     
     func displayAction() -> some View {
-        ForEach(actions, id: \.name) { a in
-            CButton(a.name, action: a.action)
+        ForEach(actions, id: \.label) { a in
+            CButton(a.label, action: a.action)
         }
     }
     

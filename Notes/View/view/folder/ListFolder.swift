@@ -19,7 +19,7 @@ struct FolderListView: View {
                 Section {
                     folderList
                 } header: {
-                    headerCard
+                    headerCard(label: "Dossiers")
                 }
             }
         }
@@ -37,7 +37,7 @@ struct FolderListView: View {
             Section {
                 PanelSearchView(search: search)
             } header: {
-                headerCard
+                headerCard(label: "Recherche")
             }
         }
     }
@@ -50,7 +50,7 @@ struct FolderListView: View {
                         currentFolder.current = folder
                     }
             } label: {
-                card(for: folder)
+                card(for: $folder)
             }
             .contextMenu {
                 ActionFolderView(folder: folder)
@@ -59,11 +59,11 @@ struct FolderListView: View {
         }
     }
 
-    private var headerCard: some View {
+    private func headerCard(label: String) -> some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("Dossiers")
-                    .font(.h1)
+                Text(label)
+                    .Cfont(.h1)
                 Spacer()
                 searchButton
             }
@@ -72,12 +72,17 @@ struct FolderListView: View {
     }
 
     @ViewBuilder
-    private func card(for item: Folder) -> some View {
+    private func card(for item: Binding<Folder>) -> some View {
         switch currentFolder.display {
         case .list:
-            FolderListCard(folder: item)
+            Text("List")
+//            ListCard(item: item)
+//                .defineAsideContent(content: {
+//                    Text(String(item.files.count))
+//                })
         case .grid:
-            FolderGridCard(folder: item)
+            GridCardLabel(item: item)
+//            FolderGridCard(folder: item)
         }
     }
 

@@ -7,7 +7,6 @@ final class Folder: Identifiable, ContentNode {
     
     private(set) var id: UUID
     private var _name: String
-    
     private var _path: String
 
     var name: String {

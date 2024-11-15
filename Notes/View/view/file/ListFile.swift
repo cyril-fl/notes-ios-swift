@@ -8,7 +8,7 @@ struct FileListView: View {
         ScrollView {
             LazyVGrid(
                 columns: columns,
-                spacing: 20,
+                spacing: .xl5,
                 pinnedViews: [.sectionHeaders]
             ) {
                 Section {
@@ -37,26 +37,32 @@ struct FileListView: View {
                 }
         }
     }
-    
-    @ViewBuilder
-    private func card(for item: File) -> some View {
-        switch currentFile.display {
-        case .list:
-            FileListCard(file: item)
-        case .grid:
-            FileGridCard(file: item)
-        }
-    }
-    
+        
     private var headerCard: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text(currentFolder.name)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.h2)
+                    .Cfont(.h2)
             }
         }
         .background(Color(.systemBackground))
+    }
+    
+    @ViewBuilder
+    private func card(for item: File) -> some View {
+        switch currentFile.display {
+        case .list:
+            ListCard(item: item)
+                .defineDescriptionContent(content: {
+                    Text(item.content)
+                })
+        case .grid:
+            VStack {
+//                GridCardPreview(content: Text(item.content))
+//                GridCardLabel<File>(Item: item)
+            }
+        }
     }
     
     private func handleSelection(_ file: File) {

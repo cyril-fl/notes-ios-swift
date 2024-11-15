@@ -1,22 +1,15 @@
 import Foundation
 import SwiftData
 
-
-// TODO Supprimer Searchable
 @Model
 class File: Identifiable, ContentNode {
     #Unique<File>([\.id])
 
     private(set) final var id: UUID
-    var name: String {
-        didSet { lastUpdateDate = Date() }
-    }
-    var content: String {
-        didSet { lastUpdateDate = Date() }
-    }
-    var path: String {
-        didSet { lastUpdateDate = Date() }
-    }
+    var name: String
+    // TODO: Changer par description
+    var content: String
+    var path: String 
     private(set) final var creationDate: Date
     var lastUpdateDate: Date
 

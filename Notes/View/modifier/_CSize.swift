@@ -1,6 +1,7 @@
 import SwiftUI
 
 enum SpacingSize: CGFloat {
+    case none = 0
     /// size : 4pt
     case xs = 4
     /// size : 8pt
@@ -53,7 +54,39 @@ extension HStack {
     }
 }
 
-extension View {    
+extension LazyVGrid {
+    init(
+        columns: [GridItem] = [],
+        spacing: SpacingSize = .none,
+        pinnedViews: PinnedScrollableViews = [],
+        @ViewBuilder content: () -> Content
+    ) {
+        self.init(
+            columns: columns,
+            spacing: .init(spacing.rawValue),
+            pinnedViews: pinnedViews,
+            content: content
+        )
+    }
+}
+
+extension LazyHGrid {
+    init(
+        rows: [GridItem] = [],
+        spacing: SpacingSize = .none,
+        pinnedViews: PinnedScrollableViews = [],
+        @ViewBuilder content: () -> Content
+    ) {
+        self.init(
+            rows: rows,
+            spacing: .init(spacing.rawValue),
+            pinnedViews: pinnedViews,
+            content: content
+        )
+    }
+}
+
+extension View {
     // Padding
     func padding(_ size: SpacingSize) -> some View {
         self.padding(size.rawValue)

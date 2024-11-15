@@ -7,10 +7,11 @@ struct FormFileView: View {
     
     @Bindable var file: File
     
-    @State private var name: String = ""
-    @State private var content: String = ""
-    @State private var previous: String = ""
-    
+    @State private var title: String = ""
+    @State private var description: String = ""
+    @State private var previousT: String = ""
+    @State private var previousD: String = ""
+
     @FocusState private var isNameFocused: Bool
     @FocusState private var isContentFocused: Bool
     
@@ -24,11 +25,11 @@ struct FormFileView: View {
             handleInit()
             handleFocus()
         }
-        .onChange(of: name, initial: false) { old, new in
+        .onChange(of: title, initial: false) { old, new in
             guard !new.isEmpty, new != old, new != file.name else { return }
             file.name = new
         }
-        .onChange(of: content, initial: false) { old, new in
+        .onChange(of: description, initial: false) { old, new in
             guard !new.isEmpty, new != old, new != file.content else { return }
             file.content = new
         }
@@ -39,7 +40,7 @@ struct FormFileView: View {
     
     
     private var formNameInput: some View {
-        TextField(previous, text: $name)
+        TextField(previousT, text: $title)
             .font(.title3)
             .fontWeight(.semibold)
             .focused($isNameFocused)
@@ -50,7 +51,7 @@ struct FormFileView: View {
     }
     
     private var formContentInput: some View {
-        TextEnhancedEditor(text: $content)
+        TextEnhancedEditor(text: $description)
             .textEditorForegroundColor(.secondary950)
             .focused($isContentFocused)
             .tint(.primary600)
@@ -59,9 +60,9 @@ struct FormFileView: View {
     
 
     private func handleInit() {
-        name = file.name.isEmpty ? defaultName : file.name
-        previous = file.name.isEmpty ? defaultName : file.name
-        content = file.content
+        title = file.name.isEmpty ? defaultName : file.name
+        previousT = file.name.isEmpty ? defaultName : file.name
+        description = file.content
     }
     
     private func handleFocus() {
@@ -72,11 +73,12 @@ struct FormFileView: View {
     
     private func handleAutoDelete() {
         withAnimation {
-            if !content.isEmpty {
+            if !description.isEmpty {
                 currentFolder.lastUpdateDate = Date()
                 file.lastUpdateDate = Date()
                 return
             }
+            
             currentFolder.current?.deleteFileById(fileId: file.id)
             context.delete(file)
         }

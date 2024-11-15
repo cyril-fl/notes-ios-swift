@@ -52,14 +52,3 @@ struct MainFolderView: View {
         }
     }
 }
-
-//// TODO ameliorer la toolbard
-////    .toolbar {
-////        // TODO: clean toolbar systeme
-////        HeaderButtonList(display: $current.display, add: addFolder)
-////    }
-////    .toolbarBackground(Color(.systemBackground), for: .navigationBar)
-////    .toolbarBackgroundVisibility(.visible)
-////    .padding(.horizontal, .lg)
-////    .background(Color(.systemBackground))
-////    .foregroundStyle(.secondary900)

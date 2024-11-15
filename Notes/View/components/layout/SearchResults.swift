@@ -45,7 +45,7 @@ struct SearchResults: View {
         ScrollView(.horizontal) {
             LazyHGrid(rows: layout, spacing: 10) {
                 ForEach(results) { _file in
-                    FileGridCard(file: _file, color: Color(.systemBackground), variant: .search)
+                    GridCardPreview(content: Text(_file.content))
                         .onTapGesture {
                             currentFile.current = _file
                             currentFile.editing.toggle()
