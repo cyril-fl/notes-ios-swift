@@ -26,8 +26,10 @@ struct MainFileView: View {
         ToolbarItem {
             CButton("plus", icon: "plus", style: .accent, size: .xs) {
                 withAnimation {
-                    let _new = File(path: "\(currentFolder.path)\(currentFolder.name)")
-                    currentFolder.files.append(_new)
+//                    let _new = File(path: "\(currentFolder.path)\(currentFolder.name)")
+                    let _new = File(path: [])
+
+                    currentFolder.current!.addFile(_new)
                     currentFile.current = _new
                     currentFile.editing.toggle()
                 }
@@ -59,7 +61,7 @@ struct MainFileView: View {
     
     MainFileView(currentFile: file)
         .onAppear() {
-            folder.current = Folder(name: "Main file", path: "/")
+            folder.current = Folder(name: "Main file", path: [])
             for i in 0..<10 {
                 folder.current?.newFile(
                     name: "Folder \(i)",

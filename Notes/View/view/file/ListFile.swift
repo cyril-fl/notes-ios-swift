@@ -3,7 +3,7 @@ import SwiftUI
 struct FileListView: View {
     @Environment(useFolder.self) private var currentFolder
     @Environment(useFile.self) private var currentFile
-    
+
     var body: some View {
         ScrollView {
             LazyVGrid(

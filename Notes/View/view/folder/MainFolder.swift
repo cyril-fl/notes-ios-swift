@@ -30,7 +30,7 @@ struct MainFolderView: View {
         ToolbarItem {
             CButton("plus", icon: "plus", style: .accent, size: .xs) {
                 withAnimation {
-                    let _new = Folder(name: "", path: "/")
+                    let _new = Folder(name: "", path: [])
                     context.insert(_new)
                     currentFolder.isDeleteOnCancel = true
                     currentFolder.current = _new

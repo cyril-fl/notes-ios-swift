@@ -21,8 +21,8 @@ class useItem<T: Identifiable & ContentNode>: Editable {
         }
     }
     
-    var path: String {
-        get { current?.path ?? "undefined" }
+    var path: [UUID] {
+        get { current?.path ?? [] }
         set { current?.path = newValue }
     }
     
@@ -52,7 +52,7 @@ final class useFolder: useItem<Folder> {
 @Observable
 final class useFile: useItem<File> {
     init() {
-        super.init(display: .list)
+        super.init(display: .grid)
     }
     
     var content: String {

@@ -30,7 +30,9 @@ struct FormFolderView: View {
     
     private var formLabel: some View {
         Text("Renommer le dossier")
-            .fontSize(.xl, weight: .semibold)
+//            .fontSize(.x, weight: .semibold)
+            .Cfont(.h3, color: .primary600)
+            .fontWeight(.semibold)
             .foregroundStyle(.primary950)
             .padding(.bottom, .xs)
     }

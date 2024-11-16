@@ -2,7 +2,7 @@ import SwiftUI
 
 protocol ContentNode: ObservableObject  {
     var name: String { get set}
-    var path: String { get  set}
+    var path: [UUID] { get  set}
     var lastUpdateDate: Date { get set }
 }
 
