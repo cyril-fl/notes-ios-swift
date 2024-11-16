@@ -40,20 +40,17 @@ final class Folder: Identifiable, ContentNode {
     func addFile(newFile: File) {
         newFile.path = "/\(self.path)/\(self.name)"
         files.append(newFile)
-        lastUpdateDate = Date()
     }
     
     func newFile(name: String, content: String) {
         let path = "/\(self.path)/\(self.name)"
         let temp =  File(name: name, content: content, path: path)
         files.append(temp)
-        lastUpdateDate = Date()
     }
     
     func deleteFileById(fileId: UUID) {
         files.removeAll { file in
             file.id == fileId
         }
-        lastUpdateDate = Date()
     }
 }

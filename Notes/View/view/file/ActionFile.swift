@@ -19,8 +19,11 @@ struct ActionFileView: View {
         Button {
             withAnimation {
                 folders.forEach { folder in
-                    folder.files.removeAll { $0.id == file.id }
-                    context.delete(file)
+                    if folder.files.first(where: { $0.id == file.id }) != nil {
+                        folder.lastUpdateDate = Date()
+                        folder.deleteFileById(fileId: file.id)
+                        context.delete(file)
+                    }
                 }
             }
         } label: {

@@ -1,48 +1,57 @@
 import SwiftUI
 
-// TODO: Refactor
 struct GridCardLabel<T: ContentNode>: View {
-    @Binding var item: T
-    @State var name: String = ""
-    var defaultName: String = "Untitled"
+    @Environment(\.defaultName) private var defaultName
+    @Environment(\.defaultItemKey) private var currentItem
     
-
+    @ObservedObject var item: T
+    @State var title: String = ""
+    
     var body: some View {
         VStack {
-            Text("defaultName")
-//            Name
-//            UpdateDate
+            label
+            date
         }
-        .onAppear {
-//            handleInit()
-        }
+        .onAppear(perform: handleInit)
+        .onChange(of: defaultName, initial: true, handleInit)
+        .onChange(of: currentItem!.editing, initial: true, handleUpdate)
     }
     
-//    var Name: some View {
-//        Text(name)
-//            .font(.caption)
-//    }
+    var label: some View {
+        Text(title)
+            .font(.caption)
+    }
     
-//    var UpdateDate: some View {
-//        Text("\(Item.lastUpdateDate.formatted(date: .abbreviated, time: .shortened))")
-//            .font(.caption)
-//            .foregroundStyle(.secondary500)
-//    }
-//    
-//    private func handleInit() {
-//        name = Item.name.isEmpty ? defaultName : Item.name
-//    }
+    var date: some View {
+        Text(item.lastUpdateDate)
+            .font(.caption)
+            .foregroundStyle(.secondary500)
+    }
+    
+    private func handleInit() {
+        title = item.name.isEmpty ? defaultName : item.name
+    }
+    
+    private func handleUpdate() {
+        guard currentItem?.editing == false else { return }
+        title = item.name
+    }
 }
-
 
 struct GridCardPreview<Content: View>: View {
     var content: Content
+    var idealH: Size?
+    
+    init(idealH: Size? = nil, @ViewBuilder content: () -> Content) {
+        self.content = content()
+        self.idealH = idealH
+    }
     
     var body: some View {
         content
-            .padding(10)
-            .frame(maxWidth: 110, minHeight: 30, maxHeight: 120, alignment: .topLeading)
+            .padding(.md)
+            .frame(maxWidth: .s26, minHeight: .s8, idealHeight: idealH, maxHeight: .s22, alignment: .topLeading)
             .background(.secondary50)
-            .cornerRadius(10)
+            .cornerRadius(.lg)
     }
 }

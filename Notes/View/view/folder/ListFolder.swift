@@ -17,32 +17,23 @@ struct FolderListView: View {
                 pinnedViews: [.sectionHeaders]
             ) {
                 Section {
-                    folderList
+                    list
                 } header: {
-                    headerCard(label: "Dossiers")
+                    HeaderLabel(label: "Dossiers", font: .h1) {
+                        searchButton
+                    }
                 }
             }
         }
         .padding(.horizontal, .xl2)
     }
-        
+    
     private var columns: [GridItem] {
         let count = currentFolder.display == .grid ? 2 : 1
         return Array(repeating: GridItem(.adaptive(minimum: 300), spacing: 15), count: count)
     }
-
-    @ViewBuilder
-    private var searchSection: some View {
-        if search.present {
-            Section {
-                PanelSearchView(search: search)
-            } header: {
-                headerCard(label: "Recherche")
-            }
-        }
-    }
-    
-    private var folderList: some View {
+        
+    private var list: some View {
         ForEach(folders, id: \.id) { folder in
             NavigationLink {
                 MainFileView(currentFile: currentFile)
@@ -50,42 +41,27 @@ struct FolderListView: View {
                         currentFolder.current = folder
                     }
             } label: {
-                card(for: $folder)
+                FolderCard(folder, currentFolder)
+                    .environment(\.defaultFileLayout, currentFolder.display)
             }
             .contextMenu {
                 ActionFolderView(folder: folder)
             }
-
+            
         }
     }
-
-    private func headerCard(label: String) -> some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text(label)
-                    .Cfont(.h1)
-                Spacer()
-                searchButton
+    
+    @ViewBuilder
+    private var searchSection: some View {
+        if search.present {
+            Section {
+                PanelSearchView(search: search)
+            } header: {
+                HeaderLabel(label: "Recherche")
             }
         }
-        .background(Color(.systemBackground))
     }
-
-    @ViewBuilder
-    private func card(for item: Binding<Folder>) -> some View {
-        switch currentFolder.display {
-        case .list:
-            Text("List")
-//            ListCard(item: item)
-//                .defineAsideContent(content: {
-//                    Text(String(item.files.count))
-//                })
-        case .grid:
-            GridCardLabel(item: item)
-//            FolderGridCard(folder: item)
-        }
-    }
-
+    
     @ViewBuilder
     private var searchButton: some View {
         if !search.present {

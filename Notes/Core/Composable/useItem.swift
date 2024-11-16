@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable
-class useItem<T: Identifiable & ContentNode> {
+class useItem<T: Identifiable & ContentNode>: Editable {
     var current: T?
     var isDeleteOnCancel: Bool = false
     var editing: Bool = false
@@ -54,7 +54,7 @@ final class useFolder: useItem<Folder> {
 @Observable
 final class useFile: useItem<File> {
     init() {
-        super.init(display: .grid)
+        super.init(display: .list)
     }
     
     var content: String {

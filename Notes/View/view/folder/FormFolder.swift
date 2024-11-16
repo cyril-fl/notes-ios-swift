@@ -21,9 +21,7 @@ struct FormFolderView: View {
             formActions
         }
         .formStyle(.popup)
-        .onAppear() {
-            handleInit()
-        }
+        .onAppear(perform: handleInit)
         .onChange(of: name, initial: false) { old, new in
             guard !new.isEmpty, new != old, new != folder.name else { return }
             folder.name = new

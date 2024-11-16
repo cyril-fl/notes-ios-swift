@@ -1,7 +1,7 @@
 import SwiftUI
 
 
-struct FolderListCard: View {
+struct __FolderListCard: View {
     @Environment(\.defaultFolderName) private var defaultName
     @Environment(useFolder.self) private var currentFolder
     
@@ -31,7 +31,7 @@ struct FolderListCard: View {
 }
 
 
-struct FileListCard: View {
+struct __FileListCard: View {
     @Environment(\.defaultFileName) private var defaultName
     @Environment(useFile.self) private var currentFile
 

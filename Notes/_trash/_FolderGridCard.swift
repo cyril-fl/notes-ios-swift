@@ -1,7 +1,7 @@
 import SwiftUI
 
 // Refactor OK
-struct __FolderGridCard: View {
+struct _FolderGridCard: View {
     @Environment(\.defaultFolderName) private var defaultName
     @Environment(useFolder.self) private var currentFolder
     
@@ -19,7 +19,7 @@ struct __FolderGridCard: View {
         .onAppear {
             name = name.isEmpty ? defaultName : name
         }
-        .onChange(of: currentFolder.editing, initial: false) {
+        .onChange(of: currentFolder.editing, initial: true) {
             if !currentFolder.editing {
                 name = folder.name
             }

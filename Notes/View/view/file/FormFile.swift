@@ -38,7 +38,6 @@ struct FormFileView: View {
         }
     }
     
-    
     private var formNameInput: some View {
         TextField(previousT, text: $title)
             .font(.title3)
@@ -57,12 +56,11 @@ struct FormFileView: View {
             .tint(.primary600)
     }
     
-    
-
     private func handleInit() {
         title = file.name.isEmpty ? defaultName : file.name
-        previousT = file.name.isEmpty ? defaultName : file.name
+        previousT = title
         description = file.content
+        previousD = description
     }
     
     private func handleFocus() {
@@ -70,17 +68,21 @@ struct FormFileView: View {
         isContentFocused = file.name.isEmpty ? false : true
     }
     
-    
     private func handleAutoDelete() {
         withAnimation {
-            if !description.isEmpty {
-                currentFolder.lastUpdateDate = Date()
-                file.lastUpdateDate = Date()
+            guard description.isEmpty else {
+                print("Handle Auto Delete descirption ok")
+                handleUpdate()
                 return
             }
-            
             currentFolder.current?.deleteFileById(fileId: file.id)
             context.delete(file)
         }
+    }
+    
+    private func handleUpdate() {
+        guard (description != previousD || title != previousT) else { return }
+        currentFolder.lastUpdateDate = Date()
+        file.lastUpdateDate = Date()
     }
 }

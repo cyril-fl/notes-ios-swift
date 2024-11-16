@@ -7,7 +7,7 @@ enum InputStyle {
 
 struct SearchFieldUi: ViewModifier {
     var bgColor: Color
-    var accentColor: Color = .secondary800
+    var accentColor: Color = .primary600
     var disableColor: Color = .secondary200
     var reset: Bool
     @Binding var query: String

@@ -8,13 +8,13 @@ struct FileListView: View {
         ScrollView {
             LazyVGrid(
                 columns: columns,
-                spacing: .xl5,
+                spacing: .sm,
                 pinnedViews: [.sectionHeaders]
             ) {
                 Section {
                     list
                 } header: {
-                    headerCard
+                    HeaderLabel(label: currentFolder.name, font: .h2)
                 }
             }
         }
@@ -28,40 +28,14 @@ struct FileListView: View {
     
     private var list: some View {
         ForEach(currentFolder.files, id: \.id) { file in
-            card(for: file)
+            FileCard(file, currentFile)
+                .environment(\.defaultFileLayout, currentFile.display)
                 .onTapGesture {
                     handleSelection(file)
                 }
                 .contextMenu{
                     ActionFileView(file: file)
                 }
-        }
-    }
-        
-    private var headerCard: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text(currentFolder.name)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .Cfont(.h2)
-            }
-        }
-        .background(Color(.systemBackground))
-    }
-    
-    @ViewBuilder
-    private func card(for item: File) -> some View {
-        switch currentFile.display {
-        case .list:
-            ListCard(item: item)
-                .defineDescriptionContent(content: {
-                    Text(item.content)
-                })
-        case .grid:
-            VStack {
-//                GridCardPreview(content: Text(item.content))
-//                GridCardLabel<File>(Item: item)
-            }
         }
     }
     

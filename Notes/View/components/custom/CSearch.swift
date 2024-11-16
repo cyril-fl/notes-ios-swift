@@ -52,6 +52,7 @@ struct CSearch<T: PersistentModel & Identifiable>: View {
                 isPresented.toggle()
             }
         }
+        .Cfont(.h4, color: .primary50)
     }
     
     var SearchBar: some View {

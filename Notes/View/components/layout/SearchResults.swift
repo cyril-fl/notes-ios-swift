@@ -16,7 +16,7 @@ struct SearchResults: View {
                 }
             }
         }
-        .frame(maxHeight: 100)
+        .frame(maxHeight: .s25)
         .transition(.move(edge: .top))
         .animation(.easeOut(duration: 0.2), value: results.isEmpty)
         .onChange(of: search.query) {
@@ -37,15 +37,18 @@ struct SearchResults: View {
     
     var NoResultView: some View {
         UnavailableCard(title: "Notes", message: "Aucune note trouvée", icon: "document")
+            .foregroundStyle(.primary50)
             .frame(maxHeight: .infinity)
             .opacity(results.isEmpty ? 1 : 0)
     }
     
     var ResultsView: some View {
         ScrollView(.horizontal) {
-            LazyHGrid(rows: layout, spacing: 10) {
+            LazyHGrid(rows: layout, spacing: .sm) {
                 ForEach(results) { _file in
-                    GridCardPreview(content: Text(_file.content))
+                    GridCardPreview {
+                        Text(_file.content)
+                    }
                         .onTapGesture {
                             currentFile.current = _file
                             currentFile.editing.toggle()

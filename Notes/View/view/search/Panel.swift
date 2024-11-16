@@ -8,7 +8,7 @@ struct PanelSearchView: View {
             CSearch<File>(keyPath: \File.content, isPresented: $search.present, reset: true)
             SearchResults()
         }
-        .background(.secondary200)
+        .background(.primary600)
         .cornerRadius(.lg)
     }
 }
