@@ -60,7 +60,7 @@ struct CButton: View {
         case .xs:
             return (width: 40, height: 40, maxWidth: 40)
         case .base:
-            return (width: 200, height: 45, maxWidth: .infinity)  // Largeur maximale possible
+            return (width: 200, height: 45, maxWidth: .infinity)
         case .md:
             return (width: 100, height: 50, maxWidth: 150)
         case .lg:

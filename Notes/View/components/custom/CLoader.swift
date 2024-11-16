@@ -18,7 +18,7 @@ struct CLoader: View {
     ) {
         self.icon = icon
         self.speed = speed
-        self.color = color  // Correction de l'assignation
+        self.color = color
         self.gradient = isGradient
         self._isAnimated = isAnimated
     }

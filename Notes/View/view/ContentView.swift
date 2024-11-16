@@ -12,14 +12,9 @@ struct ContentView: View {
         NavigationView {
             MainFolderView(currentFolder: folder)
         }
-//        .fullScreenModal(isPresented: $file.editing) {
-//            FormFileView(file: file.current!)
-//        }
-        .sheet(isPresented: $file.editing, content: {
+        .fullScreenModal(isPresented: $file.editing) {
             FormFileView(file: file.current!)
-                .presentationDetents([.height(200)])
-
-        })
+        }
         .fullScreenModal(isPresented: $folder.editing, color: .clear, drag: false) {
             FormFolderView(folder: folder.current!, isDeleteOnCancel: folder.isDeleteOnCancel)
         }

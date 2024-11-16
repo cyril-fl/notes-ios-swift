@@ -57,8 +57,6 @@ struct MainFileView: View {
     @Previewable @State var file = useFile()
     @Previewable @State var search = useSearch()
     
-    
-
     MainFileView(currentFile: file)
         .onAppear() {
             folder.current = Folder(name: "Main file", path: "/")

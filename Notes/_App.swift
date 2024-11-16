@@ -70,7 +70,6 @@ struct DeleteView: View {
     private func saveChanges() {
         do {
             try context.save()
-            print("Changes saved successfully.")
         } catch {
             print("Error saving changes: \(error.localizedDescription)")
         }

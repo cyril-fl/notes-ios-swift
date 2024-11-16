@@ -43,7 +43,6 @@ struct CSearch<T: PersistentModel & Identifiable>: View {
                 search.query = ""
             }
         }
-
     }
     
     var CancelButton: some View {

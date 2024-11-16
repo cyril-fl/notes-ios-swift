@@ -12,7 +12,7 @@ struct HeaderLabel<Content: View>: View {
     ) {
         self.label = label
         self.font = font
-        self.content = content() // Appel immédiat de la closure
+        self.content = content()
     }
 
     var body: some View {

@@ -32,8 +32,6 @@ class useItem<T: Identifiable & ContentNode>: Editable {
     }
 }
 
-
-
 @Observable
 final class useFolder: useItem<Folder> {
     init() {
@@ -62,77 +60,3 @@ final class useFile: useItem<File> {
         set { current?.content = useValidate.text(newValue) ?? "Err" }
     }
 }
-
-//
-//import SwiftUI
-//
-//@Observable
-//final class useFolder {
-//    var current: Folder?
-//    var isDeleteOnCancel: Bool = false
-//    var editing: Bool = false
-//    var display: DisplayMode = .list
-//        
-//    var id: UUID { current?.id ?? UUID() }
-//
-//    var name: String {
-//        get { current?.name ?? "undefined" }
-//        set {
-//            current?.name =
-//            useValidate.text(newValue, length: 120) ?? ""
-//        }
-//    }
-//    
-//    var path: String {
-//        get { current?.path ?? "undefined" }
-//        set { current?.path = newValue }
-//    }
-//    
-//    var lastUpdateDate: Date {
-//        get { current?.lastUpdateDate ?? Date() }
-//        set { current?.lastUpdateDate = newValue }
-//    }
-//    
-//    var files: [File] {
-//        get {
-//            current?.files
-//                .sorted(by: { $0.lastUpdateDate > $1.lastUpdateDate }) ?? []
-//        }
-//        set {
-//            current?.files = newValue
-//        }
-//    }
-//}
-//
-//@Observable
-//final class useFile {
-//    var current: File?
-//    var isDeleteOnCancel: Bool = false
-//    var editing: Bool = false
-//    var display: DisplayMode = .grid
-//    
-//    var id: UUID { current?.id ?? UUID() }
-//
-//    var name: String {
-//        get { current?.name ?? "undefined" }
-//        set {
-//            current?.name =
-//            useValidate.text(newValue, length: 120) ?? ""
-//        }
-//    }
-//    
-//    var path: String {
-//        get { current?.path ?? "undefined" }
-//        set { current?.path = newValue }
-//    }
-//    
-//    var lastUpdateDate: Date {
-//        get { current?.lastUpdateDate ?? Date() }
-//        set { current?.lastUpdateDate = newValue }
-//    }
-//    
-//    var content: String {
-//        get { current?.content ?? "undefined" }
-//        set { current?.content = useValidate.text(newValue) ?? "Err" }
-//    }
-//}

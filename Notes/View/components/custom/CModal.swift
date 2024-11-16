@@ -1,8 +1,7 @@
 import SwiftUI
 import UIKit
 
-//TODO
-// Reussi a se debarasser de FULLSCREENCOVER, pour gerer la transition seul, et mettre un sens pour le swipe.
+// TODO: Reussi a se debarasser de FULLSCREENCOVER, pour gerer la transition seul, et mettre un sens pour le swipe.
 
 enum ModalDirection {
     case up

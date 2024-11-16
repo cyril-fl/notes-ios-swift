@@ -89,7 +89,7 @@ extension View {
     }
     
     // RoundeBorder
-    // TODO regarder pour faire pareil "surchage de fonction" la ou c'est faisable dans les extensions
+    // TODO: regarder pour faire pareil "surchage de fonction" la ou c'est faisable dans les extensions
     func roundedBorder(_ color: Color, width: CGFloat, cornerRadius: CGFloat = 5) -> some View {
         overlay(
             RoundedRectangle(cornerRadius: cornerRadius)

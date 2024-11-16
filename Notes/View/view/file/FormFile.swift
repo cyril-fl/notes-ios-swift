@@ -71,7 +71,6 @@ struct FormFileView: View {
     private func handleAutoDelete() {
         withAnimation {
             guard description.isEmpty else {
-                print("Handle Auto Delete descirption ok")
                 handleUpdate()
                 return
             }
